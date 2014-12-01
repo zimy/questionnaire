@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: Questionnaire
+  datasource:
+    url: jdbc:hsqldb:file:./.hsqldb/questionnaire
+    driverClassName: org.hsqldb.jdbcDriver
+  jpa:
+    hibernate.ddl-auto: update
+  thymeleaf:
+    check-template-location: false
+server:
+  port: 0
+  tomcat:
+    access-log-enabled: true
+logging:
+  level: info
+  path: /tmp/questionnaire/
+---
+
+spring:
+  profiles: development
+  jpa:
+    show-sql: true
+  datasource:
+      url: jdbc:hsqldb:mem:questionnaire
+      driverClassName: org.hsqldb.jdbcDriver
+logging:
+  level: trace
+
+http:
+  mappers:
+    json-pretty-print: true
+    json-sort-keys: true
+---

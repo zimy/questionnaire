@@ -1,5 +1,9 @@
+*.iml
+.idea
+*.ipr
+*.iws
+out/
+.hsqldb
 .gradle
-build/
-
-# Ignore Gradle GUI config
-gradle-app.setting
+build
+gradle.properties

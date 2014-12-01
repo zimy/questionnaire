@@ -1,0 +1,47 @@
+buildscript {
+    repositories {
+        maven { url "http://repo.spring.io/libs-release" }
+        maven { url 'http://dl.bintray.com/haunted-soft/maven' }
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.1.9.RELEASE")
+        classpath "com.sarhanm:gradle-versioner:+@jar"
+        classpath 'com.haunted.gradle-plugins:save-ssd:+@jar'
+    }
+}
+
+repositories {
+    maven { url "http://repo.spring.io/libs-release" }
+    mavenCentral()
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.1'
+    distributionUrl = 'http://services.gradle.org/distributions/gradle-2.2.1-all.zip'
+}
+
+apply plugin: 'com.sarhanm.versioner'
+apply plugin: 'save-ssd'
+apply plugin: 'spring-boot'
+apply plugin: 'java'
+
+jar {
+    baseName = 'Questionnaire'
+}
+task zip(type: Zip) {
+    from('build/libs') {
+        exclude '*.original'
+    }
+    archiveName 'distribution.zip'
+}
+dependencies {
+    testCompile 'junit:junit'
+    testRuntime 'com.jayway.jsonpath:json-path'
+    testCompile 'org.mockito:mockito-core'
+    testCompile 'org.springframework:spring-test'
+    runtime 'org.hsqldb:hsqldb'
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+}
