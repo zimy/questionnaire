@@ -4,9 +4,8 @@ jdk:
   - oraclejdk7
   - openjdk7
 cache:
-  - bundler
   - directories:
-      - $HOME/.gradle
+      - $GRADLE_USER_HOME/
 deploy:
   - provider: openshift
     domain: whole
