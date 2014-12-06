@@ -18,7 +18,7 @@ repositories {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.1'
+    gradleVersion = '2.2.1'
     distributionUrl = 'http://services.gradle.org/distributions/gradle-2.2.1-all.zip'
 }
 
@@ -30,18 +30,16 @@ apply plugin: 'java'
 jar {
     baseName = 'Questionnaire'
 }
-task zip(type: Zip) {
-    from('build/libs') {
-        exclude '*.original'
-    }
-    archiveName 'distribution.zip'
-}
+
 dependencies {
     testCompile 'junit:junit'
     testRuntime 'com.jayway.jsonpath:json-path'
     testCompile 'org.mockito:mockito-core'
     testCompile 'org.springframework:spring-test'
     runtime 'org.hsqldb:hsqldb'
+    runtime 'org.postgresql:postgresql:9.3-1102-jdbc41'
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+//    compile 'org.springframework.webflow:spring-webflow:2.4.0.RELEASE'
+
 }

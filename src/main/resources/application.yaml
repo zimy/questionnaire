@@ -9,7 +9,7 @@ spring:
   thymeleaf:
     check-template-location: false
 server:
-  port: 0
+  port: 8080
   tomcat:
     access-log-enabled: true
 logging:
@@ -21,14 +21,29 @@ spring:
   profiles: development
   jpa:
     show-sql: true
+    hibernate.ddl-auto: update
   datasource:
       url: jdbc:hsqldb:mem:questionnaire
       driverClassName: org.hsqldb.jdbcDriver
 logging:
   level: trace
-
 http:
   mappers:
     json-pretty-print: true
     json-sort-keys: true
+server:
+  port: 0
+---
+spring:
+  profiles: openshift
+  datasource:
+    url: jdbc:postgresql://${OPENSHIFT_POSTGRESQL_DB_HOST}:${OPENSHIFT_POSTGRESQL_DB_PORT}/questionnaire
+    username: ${OPENSHIFT_POSTGRESQL_DB_USERNAME}
+    password: ${OPENSHIFT_POSTGRESQL_DB_PASSWORD}
+    driverClassName: org.postgresql.Driver
+server:
+  address: ${OPENSHIFT_DIY_IP}
+  port: ${OPENSHIFT_DIY_PORT}
+logging:
+  path: ${OPENSHIFT_DATA_DIR}/logs/
 ---

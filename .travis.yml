@@ -1,6 +1,19 @@
 language: java
-jdk: - oraclejdk8
-- oraclejdk7
-- openjdk7
-cache: directories: - $HOME/.gradle
+jdk:
+  - oraclejdk8
+  - oraclejdk7
+  - openjdk7
+cache:
+  directories:
+    - $HOME/.gradle
+deploy:
+  - provider: openshift
+    domain: whole
+    app: questionnaire
+    user:
+      secure: "E+YKf6CWveiF9AQCjKUyf86I70ggwEtdJBBFV/jlujI+rhIeKWy4YNIKB7f0QxU0alU/3taozbn3j9TpbfVTUhmSH3PmY3Yz8Ix4me6JwW7o1vUz6jSyt+VD64XdRgaTKE3OA/TLRLYc9RWQQ4oKlao8qLFFLSMkM6JwYoxS4Kw="
+    password:
+      secure: "UEqZ69OxvORIUSX696E3TtoOV2ONL/+EPlQwMQ4wh6NXVT2MqOW3KBdbkajUMbDESFwn3btE96VDRXR1eRagKMbgNQdcr/k32FA53P38j4OmpiRxzuuwXCFwMF4ntKO/W7X3IJ0YgdGA4Wzjeonq+bnf87pOWcIJFPDZ2PGMSk0="
+    skip_cleanup: true
+    file: "build/libs/*.jar"
 ---
