@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 /**
  * This is for storing concrete answer for linked question and selecting with responder
@@ -16,6 +17,7 @@ public class Response {
     @Id
     @GeneratedValue
     Long id;
+    @NotNull
     Likeness response;
     @ManyToOne
     Question question;
@@ -23,7 +25,7 @@ public class Response {
     Responder responder;
 
     public Response() {
-        response = Likeness.Undefined;
+        response = null;
     }
 
     public Response(Likeness response, Question question) {

@@ -1,9 +1,13 @@
 package me.zimy.questionnaire.domain;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,19 +22,25 @@ public class Responder {
     @Id
     @GeneratedValue
     Long id;
-    int age;
+    @NotNull
+    @Length(min = 1)
+    String age;
+    @NotNull
     Domain domain;
+    @NotNull
     Gender gender;
+    @NotNull
+    @Length(min = 1)
     String identifier;
     @OneToMany
     List<Response> responses;
 
-    public Responder(int age, Domain domain, Gender gender, String identifier) {
-
-        this.age = age;
-        this.domain = domain;
-        this.gender = gender;
-        this.identifier = identifier;
+    public Responder() {
+        age = "174 ДЯБ";
+        domain = Domain.Nothing;
+        gender = null;
+        identifier = "Неопознанный хорёк";
+        responses = new ArrayList<>();
     }
 
     public Long getId() {
@@ -41,11 +51,11 @@ public class Responder {
         this.id = id;
     }
 
-    public int getAge() {
+    public String getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(String age) {
         this.age = age;
     }
 

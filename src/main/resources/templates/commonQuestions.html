@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<head lang="ru">
+    <meta charset="UTF-8"/>
+    <title>Общие вопросы</title>
+    <link href="common.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<form class="login" method="post" action="#" th:action="@{/}" th:object="${responder}" accept-charset="UTF-8"
+      enctype="application/x-www-form-urlencoded">
+    <label for="identifier">Представьтесь, пожалуйста:</label>
+
+    <p th:if="${#fields.hasErrors('identifier')}" th:errors="*{identifier}">Тут ошибка</p><input type="text"
+                                                                                                 id="identifier"
+                                                                                                 name="identifier"
+                                                                                                 required="required"/>
+    <label for="age">Ваш возраст:</label>
+
+    <p th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Здесь ошибка</p><input type="number" id="age" name="age"
+                                                                                     required="required"/>
+
+    <p>Ваш пол:</p>
+
+    <p th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}">И тут ошибка</p>
+    <ul>
+        <li><input type="radio" value="Male" name="gender" id="gender-male" required="required"/><label
+                for="gender-male">мужской</label>
+        </li>
+        <li><input type="radio" value="Female" name="gender" id="gender-female" required="required"/><label
+                for="gender-female">женский</label></li>
+    </ul>
+    <p>Род занятий:</p>
+
+    <p th:if="${#fields.hasErrors('domain')}" th:errors="*{domain}">Совсем ошибка</p>
+    <ul>
+        <li><input type="radio" value="Nothing" name="domain" id="domain-nothing" required="required"/><label
+                for="domain-nothing">ничего</label></li>
+        <li><input type="radio" value="Cosplay" name="domain" id="domain-cosplay" required="required"/><label
+                for="domain-cosplay">косплей</label></li>
+        <li><input type="radio" value="Anime" name="domain" id="domain-anime" required="required"/><label
+                for="domain-anime">аниме</label>
+        </li>
+        <li><input type="radio" value="Both" name="domain" id="domain-both" required="required"/><label
+                for="domain-both">и то, и другое</label>
+        </li>
+    </ul>
+    <input type="submit" value="Продолжить"/>
+</form>
+</body>
+</html>

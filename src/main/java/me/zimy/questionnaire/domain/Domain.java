@@ -1,14 +1,14 @@
 package me.zimy.questionnaire.domain;
 
 /**
- * This enumeration is for answer of possible connection reason, it can be one of two possible answers
- * and have special value for "unspecified" case
+ * This enumeration is for answer of possible connection reason, it can be one of four possible answers
  *
  * @author Dmitriy &lt;Zimy&gt; Yakovlev
  * @since 12/4/14.
  */
 public enum Domain {
-    NotDefined,
+    Nothing,
     Anime,
-    Cosplay
+    Cosplay,
+    Both
 }
