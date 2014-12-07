@@ -25,8 +25,14 @@ spring:
   datasource:
       url: jdbc:hsqldb:mem:questionnaire
       driverClassName: org.hsqldb.jdbcDriver
+  thymeleaf:
+    cache: false
 logging:
-  level: trace
+  level:
+    me:
+      zimy:
+        questionnaire:
+          StartupDatabaseFiller: TRACE
 http:
   mappers:
     json-pretty-print: true
