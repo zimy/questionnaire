@@ -1,5 +1,6 @@
 package me.zimy.questionnaire.repositories;
 
+import me.zimy.questionnaire.domain.Gender;
 import me.zimy.questionnaire.domain.Question;
 import me.zimy.questionnaire.services.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,10 @@ public class QuestionServiceJPA implements QuestionService {
     @Override
     public List<Question> getAll() {
         return questionRepository.findAll();
+    }
+
+    @Override
+    public List<Question> getByGender(Gender gender) {
+        return questionRepository.getByTargetGender(gender);
     }
 }

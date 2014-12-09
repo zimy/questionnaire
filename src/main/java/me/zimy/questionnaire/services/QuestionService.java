@@ -1,5 +1,6 @@
 package me.zimy.questionnaire.services;
 
+import me.zimy.questionnaire.domain.Gender;
 import me.zimy.questionnaire.domain.Question;
 
 import java.util.List;
@@ -14,4 +15,6 @@ public interface QuestionService {
     Question find(Long id);
 
     List<Question> getAll();
+
+    List<Question> getByGender(Gender gender);
 }

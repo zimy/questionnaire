@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title>Основные вопросы</title>
+    <link rel="stylesheet" href="common.css" type="text/css"/>
+</head>
+<body>
+<div class="mainblock">
+    <p>Ответьте, пожалуйста, на следующие вопросы:</p>
+    <table class="table table-bordered">
+        <thead>
+        <tr class="center middle">
+            <th>#</th>
+            <th>Вопрос</th>
+            <th>id</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="question,rowStat : ${questions}">
+            <td class="center middle" th:text="${rowStat.count}">1</td>
+            <td class="center middle" th:text="${question.question}">John Woo</td>
+            <td class="center middle" th:text="${question.id}">0</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
