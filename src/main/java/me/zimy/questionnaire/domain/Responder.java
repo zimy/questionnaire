@@ -23,8 +23,7 @@ public class Responder {
     @GeneratedValue
     Long id;
     @NotNull
-    @Length(min = 1)
-    String age;
+    Long age;
     @NotNull
     Domain domain;
     @NotNull
@@ -36,7 +35,7 @@ public class Responder {
     List<Response> responses;
 
     public Responder() {
-        age = "174 ДЯБ";
+        age = 174L;
         domain = Domain.Nothing;
         gender = null;
         identifier = "Неопознанный хорёк";
@@ -51,11 +50,11 @@ public class Responder {
         this.id = id;
     }
 
-    public String getAge() {
+    public Long getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(Long age) {
         this.age = age;
     }
 
