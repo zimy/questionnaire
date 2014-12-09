@@ -49,4 +49,9 @@ public class WebFormController {
         session.setAttribute("id", responder.getId());
         return "standardQuestionnaire";
     }
+
+    @RequestMapping("/end")
+    public String thankYou() {
+        return "thanks";
+    }
 }

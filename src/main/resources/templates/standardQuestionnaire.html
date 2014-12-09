@@ -7,24 +7,48 @@
     <link rel="stylesheet" href="common.css" type="text/css"/>
 </head>
 <body>
-<div class="mainblock">
+<form th:action="@{/end}" class="mainblock" action="#" method="post">
     <p>Ответьте, пожалуйста, на следующие вопросы:</p>
     <table class="table table-bordered">
         <thead>
         <tr class="center middle">
             <th>#</th>
             <th>Вопрос</th>
-            <th>id</th>
+            <th>-3</th>
+            <th>-2</th>
+            <th>-1</th>
+            <th>1</th>
+            <th>2</th>
+            <th>3</th>
+
         </tr>
         </thead>
         <tbody>
         <tr th:each="question,rowStat : ${questions}">
             <td class="center middle" th:text="${rowStat.count}">1</td>
             <td class="center middle" th:text="${question.question}">John Woo</td>
-            <td class="center middle" th:text="${question.id}">0</td>
+            <td class="center middle">
+                <input type="radio" name="stub" th:attr="name=${question.id}" value="VeryUnlikely"/>
+            </td>
+            <td class="center middle">
+                <input type="radio" name="stub" th:attr="name=${question.id}" value="Unlikely"/>
+            </td>
+            <td class="center middle">
+                <input type="radio" name="stub" th:attr="name=${question.id}" value="SlightlyVeryUnlikely"/>
+            </td>
+            <td class="center middle">
+                <input type="radio" name="stub" th:attr="name=${question.id}" value="SlightlyLikely"/>
+            </td>
+            <td class="center middle">
+                <input type="radio" name="stub" th:attr="name=${question.id}" value="Likely"/>
+            </td>
+            <td class="center middle">
+                <input type="radio" name="stub" th:attr="name=${question.id}" value="VeryLikely"/>
+            </td>
         </tr>
         </tbody>
     </table>
-</div>
+    <input type="submit" value="Закончить"/>
+</form>
 </body>
 </html>
