@@ -4,46 +4,64 @@
 <head lang="en">
     <meta charset="UTF-8"/>
     <title>Основные вопросы</title>
-    <link rel="stylesheet" href="common.css" type="text/css"/>
+    <link rel="stylesheet" th:attr="href=@{common.css}" href="../public/common.css" type="text/css"/>
 </head>
 <body>
 <form th:action="@{/end}" class="mainblock" action="#" method="post">
-    <p>Ответьте, пожалуйста, на следующие вопросы:</p>
+    <p>Ниже приведены описания разных людей. Пожалуйста, прочитайте каждое описание и подумайте, насколько
+
+        этот человек похож или не похож на Вас. Поставьте крестик в одной из клеточек справа, которая показывает,
+        насколько
+
+        этот человек похож на Вас.</p>
     <table class="table table-bordered">
         <thead>
         <tr class="center middle">
             <th>#</th>
             <th>Вопрос</th>
-            <th>-3</th>
-            <th>-2</th>
-            <th>-1</th>
-            <th>1</th>
-            <th>2</th>
-            <th>3</th>
-
+            <th>Совсем не похож на меня</th>
+            <th>Не похож на меня</th>
+            <th>Мало похож на меня</th>
+            <th>Умеренно похож на меня</th>
+            <th>Похож на меня</th>
+            <th>Очень похож на меня</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="question,rowStat : ${questions}">
             <td class="center middle" th:text="${rowStat.count}">1</td>
-            <td class="center middle" th:text="${question.question}">John Woo</td>
-            <td class="center middle">
-                <input type="radio" name="stub" th:attr="name=${question.id}" value="VeryUnlikely"/>
+            <td class="center middle" th:text="${question.question}">В чём состоит главный вопрос жизни, Вселенной и
+                всего такого?
             </td>
             <td class="center middle">
-                <input type="radio" name="stub" th:attr="name=${question.id}" value="Unlikely"/>
+                <label>
+                    <input type="radio" name="stub" th:attr="name=${question.id}" value="VeryUnlikely"/>
+                </label>
             </td>
             <td class="center middle">
-                <input type="radio" name="stub" th:attr="name=${question.id}" value="SlightlyVeryUnlikely"/>
+                <label>
+                    <input type="radio" name="stub" th:attr="name=${question.id}" value="Unlikely"/>
+                </label>
             </td>
             <td class="center middle">
-                <input type="radio" name="stub" th:attr="name=${question.id}" value="SlightlyLikely"/>
+                <label>
+                    <input type="radio" name="stub" th:attr="name=${question.id}" value="SlightlyVeryUnlikely"/>
+                </label>
             </td>
             <td class="center middle">
-                <input type="radio" name="stub" th:attr="name=${question.id}" value="Likely"/>
+                <label>
+                    <input type="radio" name="stub" th:attr="name=${question.id}" value="SlightlyLikely"/>
+                </label>
             </td>
             <td class="center middle">
-                <input type="radio" name="stub" th:attr="name=${question.id}" value="VeryLikely"/>
+                <label>
+                    <input type="radio" name="stub" th:attr="name=${question.id}" value="Likely"/>
+                </label>
+            </td>
+            <td class="center middle">
+                <label>
+                    <input type="radio" name="stub" th:attr="name=${question.id}" value="VeryLikely"/>
+                </label>
             </td>
         </tr>
         </tbody>

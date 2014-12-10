@@ -4,7 +4,7 @@
 <head lang="ru">
     <meta charset="UTF-8"/>
     <title>Общие вопросы</title>
-    <link href="common.css" rel="stylesheet" type="text/css"/>
+    <link href="../public/common.css" th:attr="href=@{common.css}" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <form class="login" method="post" action="#" th:action="@{/}" th:object="${responder}" accept-charset="UTF-8"
@@ -30,7 +30,7 @@
         <li><input type="radio" value="Female" name="gender" id="gender-female" required="required"/><label
                 for="gender-female">женский</label></li>
     </ul>
-    <p>Род занятий:</p>
+    <p>Относите ли вы себя к субкультуре:</p>
 
     <p th:if="${#fields.hasErrors('domain')}" th:errors="*{domain}">Совсем ошибка</p>
     <ul>
@@ -41,10 +41,10 @@
         <li><input type="radio" value="Cosplay" name="domain" id="domain-cosplay" required="required"/><label
                 for="domain-cosplay">косплей</label></li>
         <li><input type="radio" value="Both" name="domain" id="domain-both" required="required"/><label
-                for="domain-both">и то, и другое</label>
+                for="domain-both">и к той, и к другой</label>
         </li>
         <li><input type="radio" value="Nothing" name="domain" id="domain-nothing" required="required"/><label
-                for="domain-nothing">ничего</label></li>
+                for="domain-nothing">ни к одной из этих</label></li>
     </ul>
     <input type="submit" value="Продолжить"/>
 </form>
