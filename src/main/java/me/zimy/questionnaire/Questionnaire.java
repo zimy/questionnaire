@@ -9,6 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import javax.servlet.ServletContext;
@@ -19,6 +20,7 @@ import javax.servlet.ServletException;
  * @since 12/1/14.
  */
 @EntityScan
+@EnableAsync
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration
