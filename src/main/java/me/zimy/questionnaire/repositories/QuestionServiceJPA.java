@@ -4,7 +4,8 @@ import me.zimy.questionnaire.domain.Gender;
 import me.zimy.questionnaire.domain.Question;
 import me.zimy.questionnaire.services.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,7 +13,8 @@ import java.util.List;
  * @author Dmitriy &lt;Zimy&gt; Yakovlev
  * @since 12/7/14.
  */
-@Service
+@Repository
+@Transactional
 public class QuestionServiceJPA implements QuestionService {
 
     @Autowired

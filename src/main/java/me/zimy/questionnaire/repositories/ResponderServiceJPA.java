@@ -3,7 +3,8 @@ package me.zimy.questionnaire.repositories;
 import me.zimy.questionnaire.domain.Responder;
 import me.zimy.questionnaire.services.ResponderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -11,7 +12,8 @@ import java.util.List;
  * @author Dmitriy &lt;Zimy&gt; Yakovlev
  * @since 12/7/14.
  */
-@Service
+@Repository
+@Transactional
 public class ResponderServiceJPA implements ResponderService {
 
     @Autowired
