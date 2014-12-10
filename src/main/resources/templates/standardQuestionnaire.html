@@ -7,7 +7,7 @@
     <link rel="stylesheet" th:attr="href=@{common.css}" href="../public/common.css" type="text/css"/>
 </head>
 <body>
-<form th:action="@{/end}" class="mainblock" action="#" method="post">
+<form th:action="@{/}" class="mainblock" action="#" method="post">
     <p>Ниже приведены описания разных людей. Пожалуйста, прочитайте каждое описание и подумайте, насколько
 
         этот человек похож или не похож на Вас. Поставьте крестик в одной из клеточек справа, которая показывает,
@@ -45,7 +45,7 @@
             </td>
             <td class="center middle">
                 <label>
-                    <input type="radio" name="stub" th:attr="name=${question.id}" value="SlightlyVeryUnlikely"/>
+                    <input type="radio" name="stub" th:attr="name=${question.id}" value="SlightlyUnlikely"/>
                 </label>
             </td>
             <td class="center middle">
