@@ -1,5 +1,9 @@
 package me.zimy.questionnaire.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,12 +19,15 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class Response {
     @Id
+    @JsonIgnore
     @GeneratedValue
     Long id;
     @NotNull
     Likeness response;
+    @JsonBackReference
     @ManyToOne
     Question question;
+    @JsonBackReference
     @ManyToOne
     Responder responder;
 
@@ -63,5 +70,10 @@ public class Response {
 
     public void setResponder(Responder responder) {
         this.responder = responder;
+    }
+
+    @JsonProperty
+    public Long questionId() {
+        return question.getId();
     }
 }

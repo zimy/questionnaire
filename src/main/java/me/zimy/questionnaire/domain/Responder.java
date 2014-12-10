@@ -1,11 +1,9 @@
 package me.zimy.questionnaire.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +29,8 @@ public class Responder {
     @NotNull
     @Length(min = 1)
     String identifier;
-    @OneToMany
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL)
     List<Response> responses;
 
     public Responder() {
@@ -82,4 +81,7 @@ public class Responder {
         this.identifier = identifier;
     }
 
+    public List<Response> getResponses() {
+        return responses;
+    }
 }

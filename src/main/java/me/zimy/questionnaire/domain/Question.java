@@ -1,9 +1,8 @@
 package me.zimy.questionnaire.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +21,8 @@ public class Question {
     Long id;
     String question;
     Gender targetGender;
-    @OneToMany
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL)
     List<Response> responseList = new ArrayList<>();
 
     public Question() {
