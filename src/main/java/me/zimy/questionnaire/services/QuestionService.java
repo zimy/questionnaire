@@ -17,4 +17,6 @@ public interface QuestionService {
     List<Question> getAll();
 
     List<Question> getByGender(Gender gender);
+
+    Question find(String text);
 }

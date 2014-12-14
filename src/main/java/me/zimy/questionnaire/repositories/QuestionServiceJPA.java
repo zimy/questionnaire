@@ -39,4 +39,9 @@ public class QuestionServiceJPA implements QuestionService {
     public List<Question> getByGender(Gender gender) {
         return questionRepository.getByTargetGender(gender);
     }
+
+    @Override
+    public Question find(String text) {
+        return questionRepository.getByQuestion(text);
+    }
 }
