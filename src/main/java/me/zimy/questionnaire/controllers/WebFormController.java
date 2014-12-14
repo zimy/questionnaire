@@ -42,16 +42,25 @@ public class WebFormController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String firstStep(Model model, Responder responder) {
+        logger.info("/ GET asked");
         return "commonQuestions";
     }
+
+    @RequestMapping(value = "/", method = RequestMethod.HEAD)
+    public String Head(Model model, Responder responder) {
+        logger.info("/ HEAD asked");
+        return "commonQuestions";
+    }
+
 
     @RequestMapping(value = "/", method = RequestMethod.POST, params = {"identifier", "age", "gender", "domain"})
     public String checkInputFromFirst(@Valid Responder responder, BindingResult bindingResult, Model model, HttpSession session) {
         if (bindingResult.hasErrors()) {
+            logger.error("Binding errors on first POST");
             return "commonQuestions";
         }
-        logger.info("Responder:" + responder.getIdentifier() + " (" + responder.getGender() + ", " + responder.getDomain() + ", " + responder.getAge() + ")");
         responderService.save(responder);
+        logger.info("Responder:" + responder.getIdentifier() + " (" + responder.getGender() + ", " + responder.getDomain() + ", " + responder.getAge() + ") #" + responder.getId());
         model.addAttribute("questions", questionService.getByGender(responder.getGender()));
         session.setAttribute("id", responder.getId());
         return "standardQuestionnaire";
@@ -60,11 +69,12 @@ public class WebFormController {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public String getSecondStageRequest(@RequestParam Map<String, String> params, HttpSession session) throws InterruptedException {
         if (session.getAttribute("id") == null) {
+            logger.error("Binding error on second POST");
             return "commonQuestions";
         }
         String sessionId = String.valueOf(session.getAttribute("id"));
         Future<Boolean> booleanFuture = dataSaver.handleSendData(params, sessionId);
-        logger.info("Somebody completed the survey instance with id==" + sessionId);
+        logger.info("#" + sessionId + " completed the survey instance");
         return "thanks";
     }
 }

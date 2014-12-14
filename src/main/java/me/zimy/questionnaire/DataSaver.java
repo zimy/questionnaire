@@ -42,7 +42,7 @@ public class DataSaver {
      */
     @Async
     public Future<Boolean> handleSendData(Map<String, String> params, String sessionId) throws InterruptedException {
-        logger.info("Starting async work on saving");
+        logger.info("Starting async work on saving #" + sessionId);
         try {
             Long parsedResponderId = Long.parseLong(sessionId);
             Long parsedQuestionId;
@@ -59,7 +59,7 @@ public class DataSaver {
                 responseService.save(response);
             }
             responderService.save(responder);
-            logger.info("All answers for responder " + parsedResponderId + " saved.");
+            logger.info("All answers for responder #" + parsedResponderId + " saved.");
         } catch (NumberFormatException | NullPointerException e) {
             logger.warn("Somebody passed strange data in Id:" + sessionId);
             throw e;
