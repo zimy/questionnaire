@@ -9,9 +9,9 @@ import org.jopendocument.dom.spreadsheet.SpreadSheet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.SmartLifecycle;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,25 +25,13 @@ import java.nio.file.StandardCopyOption;
  * @since 12/7/14.
  */
 @Component
-public class StartupDatabaseFiller implements SmartLifecycle {
+public class StartupDatabaseFiller {
 
     private static Logger logger = LoggerFactory.getLogger(StartupDatabaseFiller.class);
     @Autowired
     QuestionService questionService;
-    private boolean running = false;
 
-    @Override
-    public boolean isAutoStartup() {
-        return true;
-    }
-
-    @Override
-    public void stop(Runnable callback) {
-        stop();
-        callback.run();
-    }
-
-    @Override
+    @PostConstruct
     public void start() {
         URL systemResource = ClassLoader.getSystemResource("QuestionList.ods");
         try {
@@ -59,30 +47,13 @@ public class StartupDatabaseFiller implements SmartLifecycle {
                 logger.trace("tmp file with questions found");
                 final Sheet sheet = SpreadSheet.createFromFile(file).getSheet(0);
                 readFromSpreadSheet(sheet);
-                running = true;
             } else {
                 logger.error("File with questions not found");
             }
         } catch (IOException e) {
             logger.error("Error while working with spreadsheet: " + e.getMessage());
             e.printStackTrace();
-            running = false;
         }
-    }
-
-    @Override
-    public void stop() {
-        running = false;
-    }
-
-    @Override
-    public boolean isRunning() {
-        return running;
-    }
-
-    @Override
-    public int getPhase() {
-        return 0;
     }
 
     void readFromSpreadSheet(Sheet sheet) {
@@ -96,12 +67,12 @@ public class StartupDatabaseFiller implements SmartLifecycle {
                 Question writeResult;
                 if (lookup == null) {
                     writeResult = questionService.save(question);
-                    logger.trace("Get new question with id==" + question.getId() + " as " + writeResult.getId());
+                    logger.info("Get new question with id==" + question.getId() + " as " + writeResult.getId());
                 } else if (!lookup.equals(question)) {
                     writeResult = questionService.save(question);
-                    logger.trace("Updated question with id==" + lookup.getId() + " as " + writeResult.getId() + " and original id==" + question.getId());
+                    logger.info("Updated question with id==" + lookup.getId() + " as " + writeResult.getId() + " and original id==" + question.getId());
                 } else {
-                    logger.trace("Duplicate question found, skipping");
+                    logger.info("Duplicate question found, skipping");
                 }
                 question = readQuestionFromStyleSheet(sheet, ++counter);
             }
