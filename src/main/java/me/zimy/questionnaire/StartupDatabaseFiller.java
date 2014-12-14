@@ -63,7 +63,7 @@ public class StartupDatabaseFiller {
             int counter = 1;
             Question question = readQuestionFromStyleSheet(sheet, counter);
             while (question != null) {
-                Question lookup = questionService.find(question.getId());
+                Question lookup = questionService.find(question.getQuestion());
                 Question writeResult;
                 if (lookup == null) {
                     writeResult = questionService.save(question);
@@ -72,7 +72,7 @@ public class StartupDatabaseFiller {
                     writeResult = questionService.save(question);
                     logger.info("Updated question with id==" + lookup.getId() + " as " + writeResult.getId() + " and original id==" + question.getId());
                 } else {
-                    logger.info("Duplicate question found, skipping");
+                    logger.debug("Duplicate question found, skipping");
                 }
                 question = readQuestionFromStyleSheet(sheet, ++counter);
             }
