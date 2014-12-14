@@ -64,4 +64,26 @@ public class Question {
     public void setTargetGender(Gender targetGender) {
         this.targetGender = targetGender;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Question)) return false;
+
+        Question question1 = (Question) o;
+
+        if (!id.equals(question1.id)) return false;
+        if (!question.equals(question1.question)) return false;
+        if (targetGender != question1.targetGender) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + question.hashCode();
+        result = 31 * result + targetGender.hashCode();
+        return result;
+    }
 }
