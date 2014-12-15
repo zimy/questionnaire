@@ -1,4 +1,4 @@
-package me.zimy.questionnaire;
+package me.zimy.questionnaire.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;

@@ -1,4 +1,4 @@
-package me.zimy.questionnaire;
+package me.zimy.questionnaire.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Configures Spring MailSender (uses JavaMail API) to send emails
+ *
  * @author Dmitriy &lt;Zimy&gt; Yakovlev
  * @since 12/15/14.
  */
@@ -25,6 +27,7 @@ public class MailSenderConfiguration {
     String theme = "Questionnaire completed";
     String text = "";
     boolean ssl = false;
+    boolean debug = false;
     List<String> recipients = new ArrayList<>();
 
     @Bean
@@ -38,7 +41,9 @@ public class MailSenderConfiguration {
         javaMailSender.getJavaMailProperties().setProperty("mail.smtp.starttls.enable", "true");
         javaMailSender.getJavaMailProperties().setProperty("mail.smtp.**ssl.enable", String.valueOf(ssl));
         javaMailSender.getJavaMailProperties().setProperty("mail.smtp.**ssl.required", String.valueOf(ssl));
-        javaMailSender.getJavaMailProperties().setProperty("mail.debug", "true");
+        if (debug) {
+            javaMailSender.getJavaMailProperties().setProperty("mail.debug", "true");
+        }
         javaMailSender.getJavaMailProperties().setProperty("mail.transport.protocol", ssl ? "smtps" : "smtp");
         return javaMailSender;
     }
@@ -86,6 +91,10 @@ public class MailSenderConfiguration {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public void setDebug(boolean debug) {
+        this.debug = debug;
     }
 
     public List<String> getRecipients() {
