@@ -7,8 +7,11 @@ import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
@@ -23,6 +26,7 @@ import javax.servlet.ServletException;
 @EnableAsync
 @Configuration
 @ComponentScan
+@EnableAspectJAutoProxy
 @EnableAutoConfiguration
 public class Questionnaire implements ServletContextInitializer {
     public static void main(String[] args) {
@@ -49,5 +53,10 @@ public class Questionnaire implements ServletContextInitializer {
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         servletContext.getSessionCookieConfig().setName("ci-session");
+    }
+
+    @Bean
+    public JavaMailSender mailSender() {
+        return new JavaMailSenderImpl();
     }
 }
