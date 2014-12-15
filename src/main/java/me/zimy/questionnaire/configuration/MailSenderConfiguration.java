@@ -24,8 +24,8 @@ public class MailSenderConfiguration {
     String username = "";
     String password = "";
     String email = "";
-    String theme = "Questionnaire completed";
-    String text = "";
+    String theme = "Questionnaire completed.";
+    String text = "Questionnaire done. Respondent #%1$d: %2$s (%3$s, %4$s, %5d). \nAnswers:\n%6$s";
     boolean ssl = false;
     boolean debug = false;
     List<String> recipients = new ArrayList<>();
