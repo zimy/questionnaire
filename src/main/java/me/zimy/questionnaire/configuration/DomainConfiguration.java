@@ -2,13 +2,11 @@ package me.zimy.questionnaire.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
 /**
  * @author Dmitriy &lt;Zimy&gt; Yakovlev
  * @since 12/16/14.
  */
-@Component
 @Configuration
 @ConfigurationProperties(prefix = "domain")
 public class DomainConfiguration {
