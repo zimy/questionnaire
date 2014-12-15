@@ -33,6 +33,8 @@ public class DataSaver {
     private QuestionService questionService;
     @Autowired
     private ResponseService responseService;
+    @Autowired
+    private Mailer mailer;
 
     /**
      * This  mettod is for storing answers of responders.
@@ -59,6 +61,7 @@ public class DataSaver {
                 responseService.save(response);
             }
             responderService.save(responder);
+            mailer.notifyOnResponderDone(responder);
             logger.info("All answers for responder #" + parsedResponderId + " saved.");
         } catch (NumberFormatException | NullPointerException e) {
             logger.warn("Somebody passed strange data in Id:" + sessionId);
