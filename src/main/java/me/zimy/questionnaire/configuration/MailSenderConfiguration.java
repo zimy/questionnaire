@@ -1,5 +1,7 @@
 package me.zimy.questionnaire.configuration;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +21,8 @@ import java.util.List;
 @Configuration
 @ConfigurationProperties(prefix = "mail")
 public class MailSenderConfiguration {
+
+    Logger logger = LoggerFactory.getLogger(MailSenderConfiguration.class);
     String host = "";
     Integer port = 0x0FACADED;
     String username = "";
@@ -32,6 +36,7 @@ public class MailSenderConfiguration {
 
     @Bean
     public JavaMailSender mailSender() {
+        logger.info("Mailer configured with server " + host + ":" + port);
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
         javaMailSender.setHost(host);
         javaMailSender.setPort(port);
