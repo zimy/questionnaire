@@ -21,6 +21,7 @@ public class Question {
     Long id;
     String question;
     Gender targetGender;
+    Integer Criteria;
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL)
     List<Response> responseList = new ArrayList<>();
@@ -65,15 +66,23 @@ public class Question {
         this.targetGender = targetGender;
     }
 
+    public int getCriteria() {
+        return Criteria;
+    }
+
+    public void setCriteria(int criteria) {
+        Criteria = criteria;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Question)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         Question question1 = (Question) o;
 
-        if (!id.equals(question1.id)) return false;
-        if (!question.equals(question1.question)) return false;
+        if (Criteria != null ? !Criteria.equals(question1.Criteria) : question1.Criteria != null) return false;
+        if (question != null ? !question.equals(question1.question) : question1.question != null) return false;
         if (targetGender != question1.targetGender) return false;
 
         return true;
@@ -81,9 +90,9 @@ public class Question {
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + question.hashCode();
-        result = 31 * result + targetGender.hashCode();
+        int result = question != null ? question.hashCode() : 0;
+        result = 31 * result + (targetGender != null ? targetGender.hashCode() : 0);
+        result = 31 * result + (Criteria != null ? Criteria.hashCode() : 0);
         return result;
     }
 }
