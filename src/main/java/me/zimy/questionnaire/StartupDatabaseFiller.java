@@ -83,7 +83,8 @@ public class StartupDatabaseFiller {
         String cellId = getCell(sheet, 0, 0);
         String cellText = getCell(sheet, 0, 1);
         String cellGender = getCell(sheet, 0, 2);
-        return cellId.equals("id") && (cellText.equals("question")) && cellGender.equals("targetGender");
+        String cellCriteria = getCell(sheet, 0, 3);
+        return cellId.equals("id") && (cellText.equals("question")) && cellGender.equals("targetGender") && cellCriteria.equals("Criteria");
     }
 
     String getCell(Sheet sheet, int y, int x) {
@@ -93,14 +94,17 @@ public class StartupDatabaseFiller {
     Question readQuestionFromStyleSheet(Sheet sheet, int row) {
         Question result = null;
         String textId = getCell(sheet, row, 0);
-        String text = getCell(sheet, row, 1);
+        String textText = getCell(sheet, row, 1);
         String textGender = getCell(sheet, row, 2);
-        if ((!textId.equals("")) && (!textGender.equals(""))) {
+        String textCriteria = getCell(sheet, row, 3);
+        if ((!textId.equals("")) && (!textGender.equals("")) && (!textCriteria.equals(""))) {
             try {
                 Long id = Long.parseLong(textId);
                 Gender gender = Gender.valueOf(textGender);
-                result = new Question(text);
+                Integer criteria = Integer.valueOf(textCriteria);
+                result = new Question(textText);
                 result.setId(id);
+                result.setCriteria(criteria);
                 result.setTargetGender(gender);
             } catch (NumberFormatException e) {
                 logger.error("Incorrect value of ID in a " + (row + 1) + " row");
