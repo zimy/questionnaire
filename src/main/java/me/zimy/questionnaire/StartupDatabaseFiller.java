@@ -50,7 +50,7 @@ public class StartupDatabaseFiller {
             } else {
                 logger.error("File with questions not found");
             }
-        } catch (IOException e) {
+        } catch (NullPointerException | IOException e) {
             logger.error("Error while working with spreadsheet: " + e.getMessage());
             e.printStackTrace();
         }
