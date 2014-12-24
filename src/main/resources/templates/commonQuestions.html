@@ -30,21 +30,22 @@
         <li><input type="radio" value="Female" name="gender" id="gender-female" required="required"/><label
                 for="gender-female">женский</label></li>
     </ul>
-    <p>Относите ли вы себя к субкультуре:</p>
+    л
+    <p>Вы:</p>
 
     <p th:if="${#fields.hasErrors('domain')}" th:errors="*{domain}">Совсем ошибка</p>
     <ul>
         <li><input type="radio" value="Anime" name="domain" id="domain-anime" required="required"/><label
-                for="domain-anime">аниме</label>
+                for="domain-anime">смотрите аниме</label>
         </li>
 
         <li><input type="radio" value="Cosplay" name="domain" id="domain-cosplay" required="required"/><label
-                for="domain-cosplay">косплей</label></li>
+                for="domain-cosplay">занимаетесь косплеем</label></li>
         <li><input type="radio" value="Both" name="domain" id="domain-both" required="required"/><label
-                for="domain-both">и к той, и к другой</label>
+                for="domain-both">и к то, и то</label>
         </li>
         <li><input type="radio" value="Nothing" name="domain" id="domain-nothing" required="required"/><label
-                for="domain-nothing">ни к одной из этих</label></li>
+                for="domain-nothing">ничего не подходит</label></li>
     </ul>
     <input type="submit" value="Продолжить"/>
 </form>
