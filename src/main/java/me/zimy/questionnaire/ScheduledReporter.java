@@ -62,6 +62,8 @@ public class ScheduledReporter {
                 if (file.exists()) {
                     logger.trace("tmp file with report created");
                     SpreadSheet.createEmpty(new DefaultTableModel(allColumns, allQuestions.size() + 1)).saveAs(file);
+
+                    file.delete();
                 } else {
                     logger.error("tmp file with report cannot be created");
                 }
