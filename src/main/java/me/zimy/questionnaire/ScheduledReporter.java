@@ -33,7 +33,7 @@ public class ScheduledReporter {
     ResponseService responseService;
     @Autowired
     QuestionService questionService;
-    List<Response> lastResponse;
+    volatile List<Response> lastResponse;
 
     @Transactional
     @Scheduled(cron = "0 * * * * *")
@@ -44,6 +44,7 @@ public class ScheduledReporter {
             logger.info("Data not changed since previous reporting.");
         } else {
             logger.info("Data changed since previous reporting, starting generating.");
+            lastResponse = currentResponses;
             List<Responder> allResponders = responderService.getAll();
             List<Question> allQuestions = questionService.getAll();
             List<String> names = new ArrayList<>(allResponders.size());
