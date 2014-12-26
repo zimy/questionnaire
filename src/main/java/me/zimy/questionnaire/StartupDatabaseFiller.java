@@ -47,6 +47,7 @@ public class StartupDatabaseFiller {
                 logger.trace("tmp file with questions found");
                 final Sheet sheet = SpreadSheet.createFromFile(file).getSheet(0);
                 readFromSpreadSheet(sheet);
+                file.delete();
             } else {
                 logger.error("File with questions not found");
             }
