@@ -12,6 +12,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+
 /**
  * Service to send emails on some actions
  *
@@ -59,6 +61,9 @@ public class Mailer {
         }
     }
 
+    public void emailReport(File file) {
+
+    }
     private String getDomainText(Domain domain) {
 
         String result = null;

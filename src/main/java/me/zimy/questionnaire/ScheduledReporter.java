@@ -29,6 +29,8 @@ import java.util.List;
 public class ScheduledReporter {
     private final Logger logger = LoggerFactory.getLogger(ScheduledReporter.class);
     @Autowired
+    Mailer mailer;
+    @Autowired
     ResponderService responderService;
     @Autowired
     ResponseService responseService;
@@ -83,29 +85,8 @@ public class ScheduledReporter {
                 if (file.exists()) {
                     logger.trace("tmp file with report created");
                     SpreadSheet.createEmpty(new DefaultTableModel(Data, allColumns)).saveAs(file);
-                    /*SimpleMailMessage msg = new SimpleMailMessage(this.templateMessage);
-                    msg.setTo(senderConfiguration.getRecipients().toArray(new String[senderConfiguration.getRecipients().size()]));
-                    StringBuilder sb = new StringBuilder();
-                    for (Response r : responder.getResponses()) {
-                        Question question = r.getQuestion();
-                        sb.append(question.getId()).append(" \'").append(question.getQuestion()).append("\' ").append(getAnswerText(r.getResponse())).append("\n");
-                    }
-                    String text = msg.getText();
-                    Long id = responder.getId();
-                    String identifier = responder.getIdentifier();
-                    String genderText = getGenderText(responder.getGender());
-                    String domainText = getDomainText(responder.getDomain());
-                    Long age = responder.getAge();
-                    String answers = sb.toString();
-                    String formattedString = String.format(text, id, identifier, genderText, domainText, age, answers);
-                    msg.setText(formattedString);
-                    try {
-                        this.mailSender.send(msg);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }*/
-
                     file.deleteOnExit();
+                    mailer.emailReport(file);
                 } else {
                     logger.error("tmp file with report cannot be created");
                 }
