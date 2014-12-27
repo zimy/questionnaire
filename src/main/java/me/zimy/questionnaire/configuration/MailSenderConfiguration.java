@@ -53,7 +53,6 @@ public class MailSenderConfiguration {
         return javaMailSender;
     }
 
-    @Bean
     public SimpleMailMessage templateMessage() {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setFrom(email);
@@ -82,20 +81,8 @@ public class MailSenderConfiguration {
         this.username = username;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setTheme(String theme) {
-        this.theme = theme;
-    }
-
     public void setSsl(boolean ssl) {
         this.ssl = ssl;
-    }
-
-    public void setText(String text) {
-        this.text = text;
     }
 
     public void setDebug(boolean debug) {
@@ -104,5 +91,29 @@ public class MailSenderConfiguration {
 
     public List<String> getRecipients() {
         return recipients;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getTheme() {
+        return theme;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
