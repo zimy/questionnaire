@@ -1,5 +1,6 @@
 package me.zimy.questionnaire;
 
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import me.zimy.questionnaire.configuration.*;
 import me.zimy.questionnaire.domain.*;
 import org.slf4j.Logger;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
+import java.text.DateFormat;
+import java.util.Date;
 
 /**
  * Service to send emails on some actions
@@ -35,13 +38,14 @@ public class Mailer {
     ReportConfiguration reportConfiguration;
     @Autowired
     private JavaMailSender mailSender;
+
     @Qualifier("mailSenderConfiguration")
     @Autowired
     private MailSenderConfiguration senderConfiguration;
 
     void notifyOnResponderDone(Responder responder) {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
-        MimeMessageHelper mimeMessageHelper = null;
+        MimeMessageHelper mimeMessageHelper;
         try {
             mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
             mimeMessageHelper.setTo(senderConfiguration.getRecipients().toArray(new String[senderConfiguration.getRecipients().size()]));
@@ -75,10 +79,13 @@ public class Mailer {
     public void emailReport(File file) {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         try {
+            Date date = new Date();
+            DateFormat df = new ISO8601DateFormat();
+            String format = df.format(date);
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
             mimeMessageHelper.setTo(senderConfiguration.getRecipients().toArray(new String[senderConfiguration.getRecipients().size()]));
-            mimeMessageHelper.setText(String.format(reportConfiguration.getMessage(), "BLAH-BLAH"));
-            mimeMessageHelper.addAttachment("Report at DTHERE.ods", file);
+            mimeMessageHelper.setText(String.format(reportConfiguration.getMessage(), format));
+            mimeMessageHelper.addAttachment("Report at " + format + ".ods", file);
             mimeMessageHelper.setSubject(reportConfiguration.getTitle());
             mimeMessageHelper.setFrom(senderConfiguration.getEmail());
             mailSender.send(mimeMessage);
