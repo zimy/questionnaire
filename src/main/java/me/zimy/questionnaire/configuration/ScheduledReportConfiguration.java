@@ -4,8 +4,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "mail.report.weekly")
-public class WeeklyReportConfiguration {
+@ConfigurationProperties(prefix = "mail.report.scheduled")
+public class ScheduledReportConfiguration {
     String text = "";
     String subject = "";
 

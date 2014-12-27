@@ -46,7 +46,7 @@ public class Reporter {
 
     @Transactional
     @Scheduled(cron = "0 * * * * *")
-    public void sendEmailReport() {
+    public void sendScheduledReport() {
         List<Response> currentResponses = responseService.getAll();
         if (lastResponse.containsAll(currentResponses) && currentResponses.containsAll(lastResponse)) {
             logger.info("Data not changed since previous reporting. Report will not be generated.");
@@ -79,6 +79,9 @@ public class Reporter {
 
             emailDataModel(new DefaultTableModel(Data, allColumns), false);
         }
+    }
+
+    public void sendEmailReport() {
     }
 
     private List<String> getActualNames(List<Responder> allResponders) {

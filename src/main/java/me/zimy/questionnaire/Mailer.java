@@ -44,7 +44,7 @@ public class Mailer {
     @Autowired
     RequestReportConfiguration requestReportConfiguration;
     @Autowired
-    WeeklyReportConfiguration weeklyReportConfiguration;
+    ScheduledReportConfiguration scheduledReportConfiguration;
 
     void notifyOnResponderDone(Responder responder) {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
@@ -93,8 +93,8 @@ public class Mailer {
                 mimeMessageHelper.setSubject(requestReportConfiguration.getSubject());
                 mimeMessageHelper.setText(String.format(requestReportConfiguration.getText(), format));
             } else {
-                mimeMessageHelper.setSubject(weeklyReportConfiguration.getSubject());
-                mimeMessageHelper.setText(String.format(weeklyReportConfiguration.getText(), format));
+                mimeMessageHelper.setSubject(scheduledReportConfiguration.getSubject());
+                mimeMessageHelper.setText(String.format(scheduledReportConfiguration.getText(), format));
             }
             mailSender.send(mimeMessage);
         } catch (Exception e) {
