@@ -37,7 +37,7 @@ public class StartupDatabaseFiller {
         try {
             String baseName = FilenameUtils.getBaseName(systemResource.getFile());
             String extension = FilenameUtils.getExtension(systemResource.getFile());
-            File file = File.createTempFile(baseName, extension);
+            File file = File.createTempFile(baseName, "." + extension);
             InputStream in = systemResource.openStream();
             Path target = file.toPath();
             StandardCopyOption[] opts =
@@ -47,7 +47,7 @@ public class StartupDatabaseFiller {
                 logger.trace("tmp file with questions found");
                 final Sheet sheet = SpreadSheet.createFromFile(file).getSheet(0);
                 readFromSpreadSheet(sheet);
-                file.delete();
+                file.deleteOnExit();
             } else {
                 logger.error("File with questions not found");
             }

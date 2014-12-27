@@ -18,6 +18,7 @@ import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -33,14 +34,14 @@ public class ScheduledReporter {
     ResponseService responseService;
     @Autowired
     QuestionService questionService;
-    volatile List<Response> lastResponse;
+    volatile List<Response> lastResponse = new LinkedList<>();
 
     @Transactional
     @Scheduled(cron = "0 * * * * *")
     public void schedule() {
         logger.info("Daily report generation");
         List<Response> currentResponses = responseService.getAll();
-        if (currentResponses.equals(lastResponse)) {
+        if (lastResponse.containsAll(currentResponses) && currentResponses.containsAll(lastResponse)) {
             logger.info("Data not changed since previous reporting.");
         } else {
             logger.info("Data changed since previous reporting, starting generating.");
@@ -56,14 +57,29 @@ public class ScheduledReporter {
             System.arraycopy(columns, 0, allColumns, 0, columns.length);
             System.arraycopy(names.toArray(new String[names.size()]), 0, allColumns, columns.length, names.size());
 
+            Object[][] Data = new Object[allQuestions.size()][3 + allResponders.size()];
+            for (int i = 0; i < allQuestions.size(); i++) {
+                Question aQuestion = allQuestions.get(i);
+                Data[i][0] = aQuestion.getId();
+                Data[i][1] = aQuestion.getQuestion();
+                Data[i][2] = aQuestion.getCriteria();
+                for (int i1 = 0; i1 < allResponders.size(); i1++) {
+                    Responder responder = allResponders.get(i1);
+                    List<Response> responses = responder.getResponses();
+                    for (Response response : responses) {
+                        if (response.getQuestion().equals(aQuestion)) {
+                            Data[i][3 + i1] = 1 + response.getResponse().ordinal();
+                        }
+                    }
+                }
+            }
 
             try {
-                File file = File.createTempFile("report", "ods");
+                File file = File.createTempFile("report", ".ods");
                 if (file.exists()) {
                     logger.trace("tmp file with report created");
-                    SpreadSheet.createEmpty(new DefaultTableModel(allColumns, allQuestions.size() + 1)).saveAs(file);
-
-                    file.delete();
+                    SpreadSheet.createEmpty(new DefaultTableModel(Data, allColumns)).saveAs(file);
+                    file.deleteOnExit();
                 } else {
                     logger.error("tmp file with report cannot be created");
                 }

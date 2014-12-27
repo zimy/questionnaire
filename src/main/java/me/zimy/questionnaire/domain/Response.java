@@ -76,4 +76,26 @@ public class Response {
     public Long questionId() {
         return question.getId();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Response response1 = (Response) o;
+
+        if (question != null ? !question.equals(response1.question) : response1.question != null) return false;
+        if (responder != null ? !responder.equals(response1.responder) : response1.responder != null) return false;
+        if (response != response1.response) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = response != null ? response.hashCode() : 0;
+        result = 31 * result + (question != null ? question.hashCode() : 0);
+        result = 31 * result + (responder != null ? responder.hashCode() : 0);
+        return result;
+    }
 }
