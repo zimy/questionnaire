@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
@@ -54,12 +55,7 @@ public class ScheduledReporter {
             lastResponse = currentResponses;
             List<Responder> allResponders = responderService.getAll();
             List<Question> allQuestions = questionService.getAll();
-            List<String> names = new ArrayList<>(allResponders.size());
-            for (Responder responder : allResponders) {
-                if (responder.getResponses().size() != 0) {
-                    names.add(responder.getIdentifier());
-                }
-            }
+            List<String> names = getActualNames(allResponders);
             String[] columns = new String[]{"Id", "Question text", "Group"};
             String[] allColumns = new String[columns.length + names.size()];
             System.arraycopy(columns, 0, allColumns, 0, columns.length);
@@ -81,20 +77,34 @@ public class ScheduledReporter {
                 }
             }
 
-            try {
-                File file = File.createTempFile("report", ".ods");
-                if (file.exists()) {
-                    logger.trace("tmp file with report created");
-                    SpreadSheet.createEmpty(new DefaultTableModel(Data, allColumns)).saveAs(file);
-                    file.deleteOnExit();
-                    mailer.emailReport(file);
-                } else {
-                    logger.error("tmp file with report cannot be created");
-                }
-            } catch (IOException | NullPointerException e) {
-                logger.error("Error while working with spreadsheet: " + e.getMessage());
-                e.printStackTrace();
+            emailDataModel(new DefaultTableModel(Data, allColumns));
+        }
+    }
+
+    private List<String> getActualNames(List<Responder> allResponders) {
+        List<String> names = new ArrayList<>(allResponders.size());
+        for (Responder responder : allResponders) {
+            if (responder.getResponses().size() != 0) {
+                names.add(responder.getIdentifier());
             }
+        }
+        return names;
+    }
+
+    private void emailDataModel(TableModel tableModel) {
+        try {
+            File file = File.createTempFile("report", ".ods");
+            if (file.exists()) {
+                logger.trace("tmp file with report created");
+                SpreadSheet.createEmpty(tableModel).saveAs(file);
+                file.deleteOnExit();
+                mailer.emailReport(file);
+            } else {
+                logger.error("tmp file with report cannot be created");
+            }
+        } catch (IOException | NullPointerException e) {
+            logger.error("Error while working with spreadsheet: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }
