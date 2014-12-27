@@ -27,8 +27,8 @@ import java.util.List;
  * @since 12/26/14.
  */
 @Component
-public class ScheduledReporter {
-    private final Logger logger = LoggerFactory.getLogger(ScheduledReporter.class);
+public class Reporter {
+    private final Logger logger = LoggerFactory.getLogger(Reporter.class);
     @Autowired
     Mailer mailer;
     @Autowired

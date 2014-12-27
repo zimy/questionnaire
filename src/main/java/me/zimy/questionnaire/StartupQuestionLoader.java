@@ -25,9 +25,9 @@ import java.nio.file.StandardCopyOption;
  * @since 12/7/14.
  */
 @Component
-public class StartupDatabaseFiller {
+public class StartupQuestionLoader {
 
-    private static Logger logger = LoggerFactory.getLogger(StartupDatabaseFiller.class);
+    private static Logger logger = LoggerFactory.getLogger(StartupQuestionLoader.class);
     @Autowired
     QuestionService questionService;
 

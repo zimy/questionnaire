@@ -1,6 +1,6 @@
 package me.zimy.questionnaire.controllers;
 
-import me.zimy.questionnaire.ScheduledReporter;
+import me.zimy.questionnaire.Reporter;
 import me.zimy.questionnaire.domain.Question;
 import me.zimy.questionnaire.domain.Responder;
 import me.zimy.questionnaire.services.QuestionService;
@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping(value = "/services")
 public class ServiceController {
     @Autowired
-    ScheduledReporter reporter;
+    Reporter reporter;
     @Autowired
     private ResponderService responderService;
     @Autowired
