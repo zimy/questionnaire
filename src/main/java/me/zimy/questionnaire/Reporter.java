@@ -53,35 +53,38 @@ public class Reporter {
         } else {
             logger.info("Data changed since previous reporting, starting generation of new report.");
             lastResponse = currentResponses;
-            List<Responder> allResponders = responderService.getAll();
-            List<Question> allQuestions = questionService.getAll();
-            List<String> names = getActualNames(allResponders);
-            String[] columns = new String[]{"Id", "Question text", "Group"};
-            String[] allColumns = new String[columns.length + names.size()];
-            System.arraycopy(columns, 0, allColumns, 0, columns.length);
-            System.arraycopy(names.toArray(new String[names.size()]), 0, allColumns, columns.length, names.size());
-
-            Object[][] Data = new Object[allQuestions.size()][3 + names.size()];
-            for (int i = 0; i < allQuestions.size(); i++) {
-                Question aQuestion = allQuestions.get(i);
-                Data[i][0] = aQuestion.getId();
-                Data[i][1] = aQuestion.getQuestion();
-                Data[i][2] = aQuestion.getCriteria();
-                int counter = 0;
-                for (Responder responder : allResponders) {
-                    for (Response response : responder.getResponses()) {
-                        if (response.getQuestion().equals(aQuestion)) {
-                            Data[i][3 + counter++] = 1 + response.getResponse().ordinal();
-                        }
-                    }
-                }
-            }
-
-            emailDataModel(new DefaultTableModel(Data, allColumns), false);
+            emailDataModel(getTableModel(), false);
         }
     }
 
     public void sendEmailReport() {
+        emailDataModel(getTableModel(), true);
+    }
+
+    public TableModel getTableModel() {
+        List<Responder> allResponders = responderService.getAll();
+        List<Question> allQuestions = questionService.getAll();
+        List<String> names = getActualNames(allResponders);
+        String[] columns = new String[]{"Id", "Question text", "Group"};
+        String[] allColumns = new String[columns.length + names.size()];
+        System.arraycopy(columns, 0, allColumns, 0, columns.length);
+        System.arraycopy(names.toArray(new String[names.size()]), 0, allColumns, columns.length, names.size());
+        Object[][] Data = new Object[allQuestions.size()][3 + names.size()];
+        for (int i = 0; i < allQuestions.size(); i++) {
+            Question aQuestion = allQuestions.get(i);
+            Data[i][0] = aQuestion.getId();
+            Data[i][1] = aQuestion.getQuestion();
+            Data[i][2] = aQuestion.getCriteria();
+            int counter = 0;
+            for (Responder responder : allResponders) {
+                for (Response response : responder.getResponses()) {
+                    if (response.getQuestion().equals(aQuestion)) {
+                        Data[i][3 + counter++] = 1 + response.getResponse().ordinal();
+                    }
+                }
+            }
+        }
+        return new DefaultTableModel(Data, allColumns);
     }
 
     private List<String> getActualNames(List<Responder> allResponders) {
