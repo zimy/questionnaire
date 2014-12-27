@@ -13,12 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.swing.table.DefaultTableModel;
 import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -34,17 +34,21 @@ public class ScheduledReporter {
     ResponseService responseService;
     @Autowired
     QuestionService questionService;
-    volatile List<Response> lastResponse = new LinkedList<>();
+    volatile List<Response> lastResponse = null;
+
+    @PostConstruct
+    public void onConstruct() {
+        lastResponse = responseService.getAll();
+    }
 
     @Transactional
     @Scheduled(cron = "0 * * * * *")
     public void schedule() {
-        logger.info("Daily report generation");
         List<Response> currentResponses = responseService.getAll();
         if (lastResponse.containsAll(currentResponses) && currentResponses.containsAll(lastResponse)) {
-            logger.info("Data not changed since previous reporting.");
+            logger.info("Data not changed since previous reporting. Report will not be generated.");
         } else {
-            logger.info("Data changed since previous reporting, starting generating.");
+            logger.info("Data changed since previous reporting, starting generation of new report.");
             lastResponse = currentResponses;
             List<Responder> allResponders = responderService.getAll();
             List<Question> allQuestions = questionService.getAll();
@@ -79,6 +83,28 @@ public class ScheduledReporter {
                 if (file.exists()) {
                     logger.trace("tmp file with report created");
                     SpreadSheet.createEmpty(new DefaultTableModel(Data, allColumns)).saveAs(file);
+                    /*SimpleMailMessage msg = new SimpleMailMessage(this.templateMessage);
+                    msg.setTo(senderConfiguration.getRecipients().toArray(new String[senderConfiguration.getRecipients().size()]));
+                    StringBuilder sb = new StringBuilder();
+                    for (Response r : responder.getResponses()) {
+                        Question question = r.getQuestion();
+                        sb.append(question.getId()).append(" \'").append(question.getQuestion()).append("\' ").append(getAnswerText(r.getResponse())).append("\n");
+                    }
+                    String text = msg.getText();
+                    Long id = responder.getId();
+                    String identifier = responder.getIdentifier();
+                    String genderText = getGenderText(responder.getGender());
+                    String domainText = getDomainText(responder.getDomain());
+                    Long age = responder.getAge();
+                    String answers = sb.toString();
+                    String formattedString = String.format(text, id, identifier, genderText, domainText, age, answers);
+                    msg.setText(formattedString);
+                    try {
+                        this.mailSender.send(msg);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }*/
+
                     file.deleteOnExit();
                 } else {
                     logger.error("tmp file with report cannot be created");

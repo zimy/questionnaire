@@ -84,6 +84,7 @@ public class Response {
 
         Response response1 = (Response) o;
 
+        if (id != null ? !id.equals(response1.id) : response1.id != null) return false;
         if (question != null ? !question.equals(response1.question) : response1.question != null) return false;
         if (responder != null ? !responder.equals(response1.responder) : response1.responder != null) return false;
         if (response != response1.response) return false;
@@ -93,7 +94,8 @@ public class Response {
 
     @Override
     public int hashCode() {
-        int result = response != null ? response.hashCode() : 0;
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (response != null ? response.hashCode() : 0);
         result = 31 * result + (question != null ? question.hashCode() : 0);
         result = 31 * result + (responder != null ? responder.hashCode() : 0);
         return result;
