@@ -61,6 +61,10 @@ public class Reporter {
         emailDataModel(getTableModel(), true);
     }
 
+    public File getReportAsFile() {
+        return getReportFile(getTableModel());
+    }
+
     public TableModel getTableModel() {
         List<Responder> allResponders = responderService.getAll();
         List<Question> allQuestions = questionService.getAll();
@@ -97,20 +101,24 @@ public class Reporter {
         return names;
     }
 
-    private void emailDataModel(TableModel tableModel, boolean requested) {
+    private File getReportFile(TableModel tableModel) {
         try {
             File file = File.createTempFile("report", ".ods");
             if (file.exists()) {
                 logger.trace("tmp file with report created");
                 SpreadSheet.createEmpty(tableModel).saveAs(file);
                 file.deleteOnExit();
-                mailer.emailReport(file, requested);
             } else {
                 logger.error("tmp file with report cannot be created");
             }
+            return file;
         } catch (IOException | NullPointerException e) {
             logger.error("Error while working with spreadsheet: " + e.getMessage());
-            e.printStackTrace();
+            return null;
         }
+    }
+
+    private void emailDataModel(TableModel tableModel, boolean requested) {
+        mailer.emailReport(getReportFile(tableModel), requested);
     }
 }

@@ -11,6 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 
 /**
@@ -39,10 +48,26 @@ public class ServiceController {
         return responderService.getAll();
     }
 
-    @RequestMapping(value = "/report")
+    @RequestMapping(value = "/report", method = RequestMethod.GET)
     @ResponseBody
     public String requestEmailReport() {
         reporter.sendEmailReport();
         return "You will get reported soon.";
+    }
+
+    @RequestMapping(value = "/report/get", method = RequestMethod.GET)
+    public void download(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        File report = reporter.getReportAsFile();
+        Path path = Paths.get(report.getAbsolutePath());
+        String mimeType = request.getServletContext().getMimeType(report.getAbsolutePath());
+        response.setContentType(mimeType == null ? "application/octet-stream" : mimeType);
+        response.setHeader("Content-Disposition", "inline; filename=\"report.ods\"");
+        try (OutputStream stream = response.getOutputStream()) {
+            BasicFileAttributes attributes = Files.readAttributes(path, BasicFileAttributes.class);
+            if (attributes.isRegularFile()) {
+                response.setContentLength((int) attributes.size());
+                Files.copy(path, stream);
+            }
+        }
     }
 }
