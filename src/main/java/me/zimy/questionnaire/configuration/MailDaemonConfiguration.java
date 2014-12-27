@@ -8,9 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Configures Spring MailSender (uses JavaMail API) to send emails
  *
@@ -18,20 +15,17 @@ import java.util.List;
  * @since 12/15/14.
  */
 @Configuration
-@ConfigurationProperties(prefix = "mail")
-public class MailSenderConfiguration {
+@ConfigurationProperties(prefix = "mail.daemon")
+public class MailDaemonConfiguration {
 
-    Logger logger = LoggerFactory.getLogger(MailSenderConfiguration.class);
+    Logger logger = LoggerFactory.getLogger(MailDaemonConfiguration.class);
     String host = "";
     Integer port = 0x0FACADED;
     String username = "";
     String password = "";
     String email = "";
-    String theme = "Questionnaire completed.";
-    String text = "Questionnaire done. Respondent #%1$d: %2$s (%3$s, %4$s, %5d). \nAnswers:\n%6$s";
     boolean ssl = false;
     boolean debug = false;
-    List<String> recipients = new ArrayList<>();
 
     @Bean
     public JavaMailSender mailSender() {
@@ -64,10 +58,6 @@ public class MailSenderConfiguration {
         this.password = password;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
     public void setUsername(String username) {
         this.username = username;
     }
@@ -78,26 +68,6 @@ public class MailSenderConfiguration {
 
     public void setDebug(boolean debug) {
         this.debug = debug;
-    }
-
-    public List<String> getRecipients() {
-        return recipients;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public String getTheme() {
-        return theme;
-    }
-
-    public void setTheme(String theme) {
-        this.theme = theme;
     }
 
     public String getEmail() {

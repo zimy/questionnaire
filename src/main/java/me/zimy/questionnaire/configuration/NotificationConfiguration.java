@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Configuration;
  * @since 12/27/14.
  */
 @Configuration
-@ConfigurationProperties(prefix = "mail.report")
-public class ReportConfiguration {
+@ConfigurationProperties(prefix = "mail.notification")
+public class NotificationConfiguration {
     String text = "";
     String subject = "";
 

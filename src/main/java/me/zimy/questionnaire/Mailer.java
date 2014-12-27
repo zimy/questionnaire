@@ -6,7 +6,6 @@ import me.zimy.questionnaire.domain.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -37,26 +36,28 @@ public class Mailer {
     @Autowired
     ReportConfiguration reportConfiguration;
     @Autowired
-    private JavaMailSender mailSender;
-
-    @Qualifier("mailSenderConfiguration")
+    RecipientList recipientList;
     @Autowired
-    private MailSenderConfiguration senderConfiguration;
+    NotificationConfiguration notificationConfiguration;
+    @Autowired
+    JavaMailSender mailSender;
+    @Autowired
+    MailDaemonConfiguration senderConfiguration;
 
     void notifyOnResponderDone(Responder responder) {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper;
         try {
             mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-            mimeMessageHelper.setTo(senderConfiguration.getRecipients().toArray(new String[senderConfiguration.getRecipients().size()]));
-            mimeMessageHelper.setSubject(senderConfiguration.getTheme());
+            mimeMessageHelper.setTo(recipientList.getRecipients().toArray(new String[recipientList.getRecipients().size()]));
+            mimeMessageHelper.setSubject(notificationConfiguration.getSubject());
             mimeMessageHelper.setFrom(senderConfiguration.getEmail());
             StringBuilder sb = new StringBuilder();
             for (Response r : responder.getResponses()) {
                 Question question = r.getQuestion();
                 sb.append(question.getId()).append(" \'").append(question.getQuestion()).append("\' ").append(getAnswerText(r.getResponse())).append("\n");
             }
-            String text = senderConfiguration.getText();
+            String text = notificationConfiguration.getText();
             Long id = responder.getId();
             String identifier = responder.getIdentifier();
             String genderText = getGenderText(responder.getGender());
@@ -83,10 +84,10 @@ public class Mailer {
             DateFormat df = new ISO8601DateFormat();
             String format = df.format(date);
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-            mimeMessageHelper.setTo(senderConfiguration.getRecipients().toArray(new String[senderConfiguration.getRecipients().size()]));
-            mimeMessageHelper.setText(String.format(reportConfiguration.getMessage(), format));
+            mimeMessageHelper.setTo(recipientList.getRecipients().toArray(new String[recipientList.getRecipients().size()]));
+            mimeMessageHelper.setText(String.format(reportConfiguration.getText(), format));
             mimeMessageHelper.addAttachment("Report at " + format + ".ods", file);
-            mimeMessageHelper.setSubject(reportConfiguration.getTitle());
+            mimeMessageHelper.setSubject(reportConfiguration.getSubject());
             mimeMessageHelper.setFrom(senderConfiguration.getEmail());
             mailSender.send(mimeMessage);
         } catch (Exception e) {
