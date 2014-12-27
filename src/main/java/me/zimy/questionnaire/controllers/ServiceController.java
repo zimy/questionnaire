@@ -1,5 +1,6 @@
 package me.zimy.questionnaire.controllers;
 
+import me.zimy.questionnaire.ScheduledReporter;
 import me.zimy.questionnaire.domain.Question;
 import me.zimy.questionnaire.domain.Responder;
 import me.zimy.questionnaire.services.QuestionService;
@@ -20,6 +21,8 @@ import java.util.List;
 @RequestMapping(value = "/services")
 public class ServiceController {
     @Autowired
+    ScheduledReporter reporter;
+    @Autowired
     private ResponderService responderService;
     @Autowired
     private QuestionService questionService;
@@ -34,5 +37,12 @@ public class ServiceController {
     @ResponseBody
     public List<Responder> getAllResponders() {
         return responderService.getAll();
+    }
+
+    @RequestMapping(value = "/report")
+    @ResponseBody
+    public String requestEmailReport() {
+        reporter.sendEmailReport();
+        return "You will get reported soon.";
     }
 }
