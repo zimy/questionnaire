@@ -46,7 +46,7 @@ public class ScheduledReporter {
 
     @Transactional
     @Scheduled(cron = "0 * * * * *")
-    public void schedule() {
+    public void sendEmailReport() {
         List<Response> currentResponses = responseService.getAll();
         if (lastResponse.containsAll(currentResponses) && currentResponses.containsAll(lastResponse)) {
             logger.info("Data not changed since previous reporting. Report will not be generated.");
@@ -77,7 +77,7 @@ public class ScheduledReporter {
                 }
             }
 
-            emailDataModel(new DefaultTableModel(Data, allColumns));
+            emailDataModel(new DefaultTableModel(Data, allColumns), false);
         }
     }
 
@@ -91,14 +91,14 @@ public class ScheduledReporter {
         return names;
     }
 
-    private void emailDataModel(TableModel tableModel) {
+    private void emailDataModel(TableModel tableModel, boolean requested) {
         try {
             File file = File.createTempFile("report", ".ods");
             if (file.exists()) {
                 logger.trace("tmp file with report created");
                 SpreadSheet.createEmpty(tableModel).saveAs(file);
                 file.deleteOnExit();
-                mailer.emailReport(file);
+                mailer.emailReport(file, requested);
             } else {
                 logger.error("tmp file with report cannot be created");
             }

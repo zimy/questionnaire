@@ -34,8 +34,6 @@ public class Mailer {
     @Autowired
     LikenessConfiguration likenessConfiguration;
     @Autowired
-    ReportConfiguration reportConfiguration;
-    @Autowired
     RecipientList recipientList;
     @Autowired
     NotificationConfiguration notificationConfiguration;
@@ -43,6 +41,10 @@ public class Mailer {
     JavaMailSender mailSender;
     @Autowired
     MailDaemonConfiguration senderConfiguration;
+    @Autowired
+    RequestReportConfiguration requestReportConfiguration;
+    @Autowired
+    WeeklyReportConfiguration weeklyReportConfiguration;
 
     void notifyOnResponderDone(Responder responder) {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
@@ -77,7 +79,7 @@ public class Mailer {
 
     }
 
-    public void emailReport(File file) {
+    public void emailReport(File file, boolean requested) {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         try {
             Date date = new Date();
@@ -85,10 +87,15 @@ public class Mailer {
             String format = df.format(date);
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
             mimeMessageHelper.setTo(recipientList.getRecipients().toArray(new String[recipientList.getRecipients().size()]));
-            mimeMessageHelper.setText(String.format(reportConfiguration.getText(), format));
             mimeMessageHelper.addAttachment("Report at " + format + ".ods", file);
-            mimeMessageHelper.setSubject(reportConfiguration.getSubject());
             mimeMessageHelper.setFrom(senderConfiguration.getEmail());
+            if (requested) {
+                mimeMessageHelper.setSubject(requestReportConfiguration.getSubject());
+                mimeMessageHelper.setText(String.format(requestReportConfiguration.getText(), format));
+            } else {
+                mimeMessageHelper.setSubject(weeklyReportConfiguration.getSubject());
+                mimeMessageHelper.setText(String.format(weeklyReportConfiguration.getText(), format));
+            }
             mailSender.send(mimeMessage);
         } catch (Exception e) {
             logger.error("Can't email: " + e.getMessage());

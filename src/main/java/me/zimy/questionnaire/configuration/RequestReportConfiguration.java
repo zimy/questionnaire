@@ -3,13 +3,9 @@ package me.zimy.questionnaire.configuration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * @author Dmitriy &lt;Zimy&gt; Yakovlev
- * @since 12/27/14.
- */
 @Configuration
-@ConfigurationProperties(prefix = "mail.report")
-public class ReportConfiguration {
+@ConfigurationProperties(prefix = "mail.report.request")
+public class RequestReportConfiguration {
     String text = "";
     String subject = "";
 
@@ -28,4 +24,5 @@ public class ReportConfiguration {
     public void setText(String text) {
         this.text = text;
     }
+
 }
