@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
@@ -51,14 +50,6 @@ public class MailSenderConfiguration {
         }
         javaMailSender.getJavaMailProperties().setProperty("mail.transport.protocol", ssl ? "smtps" : "smtp");
         return javaMailSender;
-    }
-
-    public SimpleMailMessage templateMessage() {
-        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setFrom(email);
-        simpleMailMessage.setSubject(theme);
-        simpleMailMessage.setText(text);
-        return simpleMailMessage;
     }
 
     public void setHost(String host) {
