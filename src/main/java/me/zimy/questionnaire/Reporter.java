@@ -45,7 +45,7 @@ public class Reporter {
     }
 
     @Transactional
-    @Scheduled(cron = "0 * * * * *")
+    @Scheduled(cron = "0 0 10 * * mon")
     public void sendScheduledReport() {
         List<Response> currentResponses = responseService.getAll();
         if (lastResponse.containsAll(currentResponses) && currentResponses.containsAll(lastResponse)) {
