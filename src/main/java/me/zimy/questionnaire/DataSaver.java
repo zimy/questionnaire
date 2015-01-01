@@ -50,6 +50,9 @@ public class DataSaver {
             Long parsedQuestionId;
             Responder responder = responderService.findOne(parsedResponderId);
             for (String s : params.keySet()) {
+                if (s.equals("_csrf")) {
+                    continue;
+                }
                 parsedQuestionId = Long.parseLong(s);
                 Question question = questionService.find(parsedQuestionId);
                 Response response = new Response(Likeness.valueOf(params.get(s)), question);
