@@ -83,8 +83,11 @@ public class Reporter {
             for (Responder responder : allResponders) {
                 for (Response response : responder.getResponses()) {
                     if (response.getQuestion().equals(aQuestion)) {
-                        Data[i][3 + counter++] = 1 + response.getResponse().ordinal();
+                        Data[i][3 + counter] = 1 + response.getResponse().ordinal();
                     }
+                }
+                if (responder.getResponses().size() != 0) {
+                    counter++;
                 }
             }
         }
