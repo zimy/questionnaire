@@ -53,5 +53,6 @@ dependencies {
     testCompile 'junit:junit'
     testCompile 'org.mockito:mockito-core'
     testCompile 'org.springframework:spring-test'
+    testCompile 'org.seleniumhq.selenium:selenium-java:2.44.0'
     testRuntime 'com.jayway.jsonpath:json-path'
 }
