@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.io.File;
+import java.nio.file.Path;
 import java.text.DateFormat;
 import java.util.Date;
 
@@ -79,7 +79,7 @@ public class Mailer {
 
     }
 
-    public void emailReport(File file, boolean requested) {
+    public void emailReport(Path path, boolean requested) {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         try {
             Date date = new Date();
@@ -87,7 +87,7 @@ public class Mailer {
             String format = df.format(date);
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
             mimeMessageHelper.setTo(recipientList.getRecipients().toArray(new String[recipientList.getRecipients().size()]));
-            mimeMessageHelper.addAttachment("Report at " + format + ".ods", file);
+            mimeMessageHelper.addAttachment("Report at " + format + ".ods", path.toFile());
             mimeMessageHelper.setFrom(senderConfiguration.getEmail());
             if (requested) {
                 mimeMessageHelper.setSubject(requestReportConfiguration.getSubject());

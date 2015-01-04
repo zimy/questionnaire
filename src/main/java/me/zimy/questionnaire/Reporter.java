@@ -17,8 +17,9 @@ import javax.annotation.PostConstruct;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.transaction.Transactional;
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,8 +62,8 @@ public class Reporter {
         emailDataModel(getTableModel(), true);
     }
 
-    public File getReportAsFile() {
-        return getReportFile(getTableModel());
+    public Path getReportAsPath() {
+        return getReportPath(getTableModel());
     }
 
     public TableModel getTableModel() {
@@ -104,17 +105,13 @@ public class Reporter {
         return names;
     }
 
-    private File getReportFile(TableModel tableModel) {
+    private Path getReportPath(TableModel tableModel) {
         try {
-            File file = File.createTempFile("report", ".ods");
-            if (file.exists()) {
-                logger.trace("tmp file with report created");
-                SpreadSheet.createEmpty(tableModel).saveAs(file);
-                file.deleteOnExit();
-            } else {
-                logger.error("tmp file with report cannot be created");
-            }
-            return file;
+            Path tempFile = Files.createTempFile("Questionnaire report", ".ods");
+            logger.trace("tmp file with report created");
+            SpreadSheet.createEmpty(tableModel).saveAs(tempFile.toFile());
+            tempFile.toFile().deleteOnExit();
+            return tempFile;
         } catch (IOException | NullPointerException e) {
             logger.error("Error while working with spreadsheet: " + e.getMessage());
             return null;
@@ -122,6 +119,6 @@ public class Reporter {
     }
 
     private void emailDataModel(TableModel tableModel, boolean requested) {
-        mailer.emailReport(getReportFile(tableModel), requested);
+        mailer.emailReport(getReportPath(tableModel), requested);
     }
 }
