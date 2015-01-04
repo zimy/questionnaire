@@ -3,7 +3,6 @@ package me.zimy.questionnaire;
 import me.zimy.questionnaire.domain.Gender;
 import me.zimy.questionnaire.domain.Question;
 import me.zimy.questionnaire.services.QuestionService;
-import org.apache.commons.io.FilenameUtils;
 import org.jopendocument.dom.spreadsheet.Sheet;
 import org.jopendocument.dom.spreadsheet.SpreadSheet;
 import org.slf4j.Logger;
@@ -12,13 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.Paths;
 
 /**
  * @author Dmitriy &lt;Zimy&gt; Yakovlev
@@ -33,21 +29,14 @@ public class StartupQuestionLoader {
 
     @PostConstruct
     public void start() {
-        URL systemResource = ClassLoader.getSystemResource("QuestionList.ods");
+        Path resource = Paths.get(ClassLoader.getSystemResource("QuestionList.ods").getFile());
         try {
-            String baseName = FilenameUtils.getBaseName(systemResource.getFile());
-            String extension = FilenameUtils.getExtension(systemResource.getFile());
-            File file = File.createTempFile(baseName, "." + extension);
-            InputStream in = systemResource.openStream();
-            Path target = file.toPath();
-            StandardCopyOption[] opts =
-                    {StandardCopyOption.REPLACE_EXISTING};
-            Files.copy(in, target, opts);
-            if (file.exists()) {
+            Path target = Files.createTempFile("Questionnaire", ".ods");
+            Files.copy(resource, Files.newOutputStream(target));
+            if (Files.exists(target)) {
                 logger.trace("tmp file with questions found");
-                final Sheet sheet = SpreadSheet.createFromFile(file).getSheet(0);
-                readFromSpreadSheet(sheet);
-                file.deleteOnExit();
+                readFromSpreadSheet(SpreadSheet.createFromFile(target.toFile()).getSheet(0));
+                Files.deleteIfExists(target);
             } else {
                 logger.error("File with questions not found");
             }
