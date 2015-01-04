@@ -66,5 +66,6 @@ public class ServiceController {
                 Files.copy(report, stream);
             }
         }
+        Files.deleteIfExists(report);
     }
 }
