@@ -12,9 +12,10 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 /**
  * @author Dmitriy &lt;Zimy&gt; Yakovlev
@@ -29,10 +30,10 @@ public class StartupQuestionLoader {
 
     @PostConstruct
     public void start() {
-        Path resource = Paths.get(ClassLoader.getSystemResource("QuestionList.ods").getFile());
         try {
+            InputStream inputStream = ClassLoader.getSystemResource("QuestionList.ods").openStream();
             Path target = Files.createTempFile("Questionnaire", ".ods");
-            Files.copy(resource, Files.newOutputStream(target));
+            Files.copy(inputStream, target, StandardCopyOption.REPLACE_EXISTING);
             if (Files.exists(target)) {
                 logger.trace("tmp file with questions found");
                 readFromSpreadSheet(SpreadSheet.createFromFile(target.toFile()).getSheet(0));
