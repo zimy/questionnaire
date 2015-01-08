@@ -2,9 +2,8 @@ package me.zimy.questionnaire;
 
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import me.zimy.questionnaire.configuration.*;
-import me.zimy.questionnaire.domain.Question;
 import me.zimy.questionnaire.domain.Responder;
-import me.zimy.questionnaire.domain.Response;
+import me.zimy.questionnaire.mails.NotificationPreparer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,33 +46,12 @@ public class Mailer {
     RequestReportConfiguration requestReportConfiguration;
     @Autowired
     ScheduledReportConfiguration scheduledReportConfiguration;
+    @Autowired
+    NotificationPreparer notificationPreparer;
 
     void notifyOnResponderDone(final Responder responder) {
         try {
-            this.mailSender.send(new MimeMessagePreparator() {
-                @Override
-                public void prepare(MimeMessage mimeMessage) throws Exception {
-                    MimeMessageHelper mimeMessageHelper;
-                    mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-                    mimeMessageHelper.setTo(recipientList.getRecipients().toArray(new String[recipientList.getRecipients().size()]));
-                    mimeMessageHelper.setSubject(notificationConfiguration.getSubject());
-                    mimeMessageHelper.setFrom(senderConfiguration.getEmail());
-                    StringBuilder sb = new StringBuilder();
-                    for (Response r : responder.getResponses()) {
-                        Question question = r.getQuestion();
-                        sb.append(question.getId()).append(" \'").append(question.getQuestion()).append("\' ").append(likenessConfiguration.getAnswerText(r.getResponse())).append("\n");
-                    }
-                    String text = notificationConfiguration.getText();
-                    Long id = responder.getId();
-                    String identifier = responder.getIdentifier();
-                    String genderText = genderConfiguration.getGenderText(responder.getGender());
-                    String domainText = domainConfiguration.getDomainText(responder.getDomain());
-                    Long age = responder.getAge();
-                    String answers = sb.toString();
-                    String formattedString = String.format(text, id, identifier, genderText, domainText, age, answers);
-                    mimeMessageHelper.setText(formattedString);
-                }
-            });
+            this.mailSender.send(notificationPreparer.getNotificatiion(responder));
         } catch (Exception ex) {
             logger.error("Can't email: " + ex.getMessage());
         }
