@@ -79,24 +79,27 @@ public class Mailer {
         }
     }
 
-    public void emailReport(Path path, boolean requested) {
-        MimeMessage mimeMessage = mailSender.createMimeMessage();
+    public void emailReport(final Path path, final boolean requested) {
         try {
-            Date date = new Date();
-            DateFormat df = new ISO8601DateFormat();
-            String format = df.format(date);
-            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-            mimeMessageHelper.setTo(recipientList.getRecipients().toArray(new String[recipientList.getRecipients().size()]));
-            mimeMessageHelper.addAttachment("Report at " + format + ".ods", path.toFile());
-            mimeMessageHelper.setFrom(senderConfiguration.getEmail());
-            if (requested) {
-                mimeMessageHelper.setSubject(requestReportConfiguration.getSubject());
-                mimeMessageHelper.setText(String.format(requestReportConfiguration.getText(), format));
-            } else {
-                mimeMessageHelper.setSubject(scheduledReportConfiguration.getSubject());
-                mimeMessageHelper.setText(String.format(scheduledReportConfiguration.getText(), format));
-            }
-            mailSender.send(mimeMessage);
+            mailSender.send(new MimeMessagePreparator() {
+                @Override
+                public void prepare(MimeMessage mimeMessage) throws Exception {
+                    Date date = new Date();
+                    DateFormat df = new ISO8601DateFormat();
+                    String format = df.format(date);
+                    MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+                    mimeMessageHelper.setTo(recipientList.getRecipients().toArray(new String[recipientList.getRecipients().size()]));
+                    mimeMessageHelper.addAttachment("Report at " + format + ".ods", path.toFile());
+                    mimeMessageHelper.setFrom(senderConfiguration.getEmail());
+                    if (requested) {
+                        mimeMessageHelper.setSubject(requestReportConfiguration.getSubject());
+                        mimeMessageHelper.setText(String.format(requestReportConfiguration.getText(), format));
+                    } else {
+                        mimeMessageHelper.setSubject(scheduledReportConfiguration.getSubject());
+                        mimeMessageHelper.setText(String.format(scheduledReportConfiguration.getText(), format));
+                    }
+                }
+            });
         } catch (Exception e) {
             logger.error("Can't email: " + e.getMessage());
 
