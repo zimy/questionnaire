@@ -1,8 +1,9 @@
 package me.zimy.questionnaire;
 
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+import mails.NotificationPreparator;
 import me.zimy.questionnaire.configuration.*;
-import me.zimy.questionnaire.domain.*;
+import me.zimy.questionnaire.domain.Responder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.nio.file.Path;
 import java.text.DateFormat;
@@ -47,36 +47,11 @@ public class Mailer {
     ScheduledReportConfiguration scheduledReportConfiguration;
 
     void notifyOnResponderDone(Responder responder) {
-        MimeMessage mimeMessage = mailSender.createMimeMessage();
-        MimeMessageHelper mimeMessageHelper;
         try {
-            mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-            mimeMessageHelper.setTo(recipientList.getRecipients().toArray(new String[recipientList.getRecipients().size()]));
-            mimeMessageHelper.setSubject(notificationConfiguration.getSubject());
-            mimeMessageHelper.setFrom(senderConfiguration.getEmail());
-            StringBuilder sb = new StringBuilder();
-            for (Response r : responder.getResponses()) {
-                Question question = r.getQuestion();
-                sb.append(question.getId()).append(" \'").append(question.getQuestion()).append("\' ").append(getAnswerText(r.getResponse())).append("\n");
-            }
-            String text = notificationConfiguration.getText();
-            Long id = responder.getId();
-            String identifier = responder.getIdentifier();
-            String genderText = getGenderText(responder.getGender());
-            String domainText = getDomainText(responder.getDomain());
-            Long age = responder.getAge();
-            String answers = sb.toString();
-            String formattedString = String.format(text, id, identifier, genderText, domainText, age, answers);
-            mimeMessageHelper.setText(formattedString);
-            try {
-                this.mailSender.send(mimeMessage);
-            } catch (Exception ex) {
-                logger.error("Can't email: " + ex.getMessage());
-            }
-        } catch (MessagingException e) {
-            e.printStackTrace();
+            this.mailSender.send(new NotificationPreparator(responder));
+        } catch (Exception ex) {
+            logger.error("Can't email: " + ex.getMessage());
         }
-
     }
 
     public void emailReport(Path path, boolean requested) {
@@ -101,63 +76,5 @@ public class Mailer {
             logger.error("Can't email: " + e.getMessage());
 
         }
-    }
-
-    private String getDomainText(Domain domain) {
-
-        String result = null;
-        switch (domain) {
-            case Nothing:
-                result = domainConfiguration.getNothing();
-                break;
-            case Anime:
-                result = domainConfiguration.getAnime();
-                break;
-            case Cosplay:
-                result = domainConfiguration.getCosplay();
-                break;
-            case Both:
-                result = domainConfiguration.getBoth();
-                break;
-        }
-        return result;
-    }
-
-    private String getGenderText(Gender gender) {
-        String result = null;
-        switch (gender) {
-            case Male:
-                result = genderConfiguration.getMale();
-                break;
-            case Female:
-                result = genderConfiguration.getFemale();
-                break;
-        }
-        return result;
-    }
-
-    private String getAnswerText(Likeness response) {
-        String result = null;
-        switch (response) {
-            case VeryUnlikely:
-                result = likenessConfiguration.getVeryUnlikely();
-                break;
-            case Unlikely:
-                result = likenessConfiguration.getUnlikely();
-                break;
-            case SlightlyUnlikely:
-                result = likenessConfiguration.getSlightlyUnlikely();
-                break;
-            case SlightlyLikely:
-                result = likenessConfiguration.getSlightlyLikely();
-                break;
-            case Likely:
-                result = likenessConfiguration.getLikely();
-                break;
-            case VeryLikely:
-                result = likenessConfiguration.getVeryLikely();
-                break;
-        }
-        return result;
     }
 }
