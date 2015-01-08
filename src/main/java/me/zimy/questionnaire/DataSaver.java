@@ -37,10 +37,10 @@ public class DataSaver {
     private Mailer mailer;
 
     /**
-     * This  mettod is for storing answers of responders.
+     * This  method is for storing answers of responders.
      *
      * @param params    is a map of params where values with natural numerical keys will be selected and saved as answers
-     * @param sessionId is a Responder's id to link responses with.
+     * @param sessionId is a Responders id to link responses with.
      */
     @Async
     public Future<Boolean> handleSendData(Map<String, String> params, String sessionId) throws InterruptedException {

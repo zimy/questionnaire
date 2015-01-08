@@ -30,7 +30,7 @@ public class NotificationPreparer {
     @Autowired
     private DomainConfiguration domainConfiguration;
 
-    public MimeMessagePreparator getNotificatiion(final Responder responder) {
+    public MimeMessagePreparator getNotification(final Responder responder) {
         return new MimeMessagePreparator() {
             @Override
             public void prepare(MimeMessage mimeMessage) throws Exception {

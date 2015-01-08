@@ -31,7 +31,7 @@ public class Mailer {
 
     void notifyOnResponderDone(final Responder responder) {
         try {
-            this.mailSender.send(notificationPreparer.getNotificatiion(responder));
+            this.mailSender.send(notificationPreparer.getNotification(responder));
         } catch (Exception ex) {
             logger.error("Can't email: " + ex.getMessage());
         }
