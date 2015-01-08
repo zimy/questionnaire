@@ -6,7 +6,10 @@ import me.zimy.questionnaire.configuration.*;
 import me.zimy.questionnaire.domain.Responder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -25,7 +28,7 @@ import java.util.Date;
  */
 @Async
 @Service
-public class Mailer {
+public class Mailer implements ApplicationContextAware {
     private final Logger logger = LoggerFactory.getLogger(Mailer.class);
     @Autowired
     DomainConfiguration domainConfiguration;
@@ -45,10 +48,11 @@ public class Mailer {
     RequestReportConfiguration requestReportConfiguration;
     @Autowired
     ScheduledReportConfiguration scheduledReportConfiguration;
+    private ApplicationContext applicationContext;
 
     void notifyOnResponderDone(Responder responder) {
         try {
-            this.mailSender.send(new NotificationPreparator(responder));
+            this.mailSender.send(applicationContext.getBean(NotificationPreparator.class));
         } catch (Exception ex) {
             logger.error("Can't email: " + ex.getMessage());
         }
@@ -76,5 +80,11 @@ public class Mailer {
             logger.error("Can't email: " + e.getMessage());
 
         }
+    }
+
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
     }
 }
