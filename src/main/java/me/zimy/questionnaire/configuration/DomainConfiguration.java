@@ -1,5 +1,6 @@
 package me.zimy.questionnaire.configuration;
 
+import me.zimy.questionnaire.domain.Domain;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -45,5 +46,25 @@ public class DomainConfiguration {
 
     public void setBoth(String both) {
         Both = both;
+    }
+
+    public String getDomainText(Domain domain) {
+
+        String result = null;
+        switch (domain) {
+            case Nothing:
+                result = getNothing();
+                break;
+            case Anime:
+                result = getAnime();
+                break;
+            case Cosplay:
+                result = getCosplay();
+                break;
+            case Both:
+                result = getBoth();
+                break;
+        }
+        return result;
     }
 }

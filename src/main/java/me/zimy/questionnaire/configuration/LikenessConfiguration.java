@@ -1,5 +1,6 @@
 package me.zimy.questionnaire.configuration;
 
+import me.zimy.questionnaire.domain.Likeness;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -65,5 +66,30 @@ public class LikenessConfiguration {
 
     public void setVeryLikely(String veryLikely) {
         VeryLikely = veryLikely;
+    }
+
+    public String getAnswerText(Likeness response) {
+        String result = null;
+        switch (response) {
+            case VeryUnlikely:
+                result = getVeryUnlikely();
+                break;
+            case Unlikely:
+                result = getUnlikely();
+                break;
+            case SlightlyUnlikely:
+                result = getSlightlyUnlikely();
+                break;
+            case SlightlyLikely:
+                result = getSlightlyLikely();
+                break;
+            case Likely:
+                result = getLikely();
+                break;
+            case VeryLikely:
+                result = getVeryLikely();
+                break;
+        }
+        return result;
     }
 }

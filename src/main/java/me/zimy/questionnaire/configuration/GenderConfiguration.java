@@ -1,5 +1,6 @@
 package me.zimy.questionnaire.configuration;
 
+import me.zimy.questionnaire.domain.Gender;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -30,5 +31,19 @@ public class GenderConfiguration {
 
     public void setFemale(String female) {
         this.female = female;
+    }
+
+
+    public String getGenderText(Gender gender) {
+        String result = null;
+        switch (gender) {
+            case Male:
+                result = getMale();
+                break;
+            case Female:
+                result = getFemale();
+                break;
+        }
+        return result;
     }
 }
