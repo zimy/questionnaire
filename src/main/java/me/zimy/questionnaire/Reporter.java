@@ -53,16 +53,8 @@ public class Reporter {
         } else {
             logger.info("Data changed since previous reporting, starting generation of new report.");
             lastResponse = currentResponses;
-            emailData(getReported(), false);
+            emailData(false);
         }
-    }
-
-    public void sendEmailReport() {
-        emailData(getReported(), true);
-    }
-
-    public Path getReportAsPath() {
-        return getReport(getReported());
     }
 
     public Report getReported() {
@@ -92,7 +84,7 @@ public class Reporter {
             }
         }
         Report report = new Report();
-        report.addPage("all", new DefaultTableModel(Data, allColumns));
+        report.addPage("All", new DefaultTableModel(Data, allColumns));
         return report;
     }
 
@@ -106,11 +98,11 @@ public class Reporter {
         return names;
     }
 
-    private Path getReport(Report report) {
+    public Path getReport() {
         try {
             Path tempFile = Files.createTempFile("Questionnaire report", ".ods");
             logger.trace("tmp file with report created");
-            report.export(tempFile);
+            getReported().export(tempFile);
             return tempFile;
         } catch (IOException | NullPointerException e) {
             logger.error("Error while working with spreadsheet: " + e.getMessage());
@@ -118,7 +110,7 @@ public class Reporter {
         }
     }
 
-    private void emailData(Report report, boolean requested) {
-        mailer.emailReport(getReport(report), requested);
+    private void emailData(boolean requested) {
+        mailer.emailReport(getReport(), requested);
     }
 }
