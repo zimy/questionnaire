@@ -109,7 +109,15 @@ public class Reporter {
         try {
             Path tempFile = Files.createTempFile("Questionnaire report", ".ods");
             logger.trace("tmp file with report created");
-            SpreadSheet.createEmpty(tableModel).saveAs(tempFile.toFile());
+            SpreadSheet report = SpreadSheet.create(6, 100, 100);
+            report.getSheet(0).setName("All");
+            report.getSheet(0).merge(tableModel, 0, 0, true);
+            report.getSheet(1).setName("Anime");
+            report.getSheet(2).setName("Cosplay");
+            report.getSheet(3).setName("Both");
+            report.getSheet(4).setName("Others");
+            report.getSheet(5).setName("Stats");
+            report.saveAs(tempFile.toFile());
             return tempFile;
         } catch (IOException | NullPointerException e) {
             logger.error("Error while working with spreadsheet: " + e.getMessage());
