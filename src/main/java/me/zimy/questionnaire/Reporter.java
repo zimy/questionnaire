@@ -3,10 +3,10 @@ package me.zimy.questionnaire;
 import me.zimy.questionnaire.domain.Question;
 import me.zimy.questionnaire.domain.Responder;
 import me.zimy.questionnaire.domain.Response;
+import me.zimy.questionnaire.reporting.Report;
 import me.zimy.questionnaire.services.QuestionService;
 import me.zimy.questionnaire.services.ResponderService;
 import me.zimy.questionnaire.services.ResponseService;
-import org.jopendocument.dom.spreadsheet.SpreadSheet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -54,19 +53,19 @@ public class Reporter {
         } else {
             logger.info("Data changed since previous reporting, starting generation of new report.");
             lastResponse = currentResponses;
-            emailDataModel(getTableModel(), false);
+            emailData(getReported(), false);
         }
     }
 
     public void sendEmailReport() {
-        emailDataModel(getTableModel(), true);
+        emailData(getReported(), true);
     }
 
     public Path getReportAsPath() {
-        return getReportPath(getTableModel());
+        return getReport(getReported());
     }
 
-    public TableModel getTableModel() {
+    public Report getReported() {
         List<Responder> allResponders = responderService.getAll();
         List<Question> allQuestions = questionService.getAll();
         List<String> names = getActualNames(allResponders);
@@ -92,7 +91,9 @@ public class Reporter {
                 }
             }
         }
-        return new DefaultTableModel(Data, allColumns);
+        Report report = new Report();
+        report.addPage("all", new DefaultTableModel(Data, allColumns));
+        return report;
     }
 
     private List<String> getActualNames(List<Responder> allResponders) {
@@ -105,19 +106,11 @@ public class Reporter {
         return names;
     }
 
-    private Path getReportPath(TableModel tableModel) {
+    private Path getReport(Report report) {
         try {
             Path tempFile = Files.createTempFile("Questionnaire report", ".ods");
             logger.trace("tmp file with report created");
-            SpreadSheet report = SpreadSheet.create(6, 100, 100);
-            report.getSheet(0).setName("All");
-            report.getSheet(0).merge(tableModel, 0, 0, true);
-            report.getSheet(1).setName("Anime");
-            report.getSheet(2).setName("Cosplay");
-            report.getSheet(3).setName("Both");
-            report.getSheet(4).setName("Others");
-            report.getSheet(5).setName("Stats");
-            report.saveAs(tempFile.toFile());
+            report.export(tempFile);
             return tempFile;
         } catch (IOException | NullPointerException e) {
             logger.error("Error while working with spreadsheet: " + e.getMessage());
@@ -125,7 +118,7 @@ public class Reporter {
         }
     }
 
-    private void emailDataModel(TableModel tableModel, boolean requested) {
-        mailer.emailReport(getReportPath(tableModel), requested);
+    private void emailData(Report report, boolean requested) {
+        mailer.emailReport(getReport(report), requested);
     }
 }
