@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 /**
@@ -71,17 +72,30 @@ public class Reporter {
     }
 
     private Object[][] getData(List<Question> allQuestions, List<Responder> allResponders, List<String> names) {
-        Object[][] data = new Object[allQuestions.size()][3 + names.size()];
+        Hashtable<Question, Hashtable<Responder, Response>> data = new Hashtable<>();
+        for (Question allQuestion : allQuestions) {
+            Hashtable<Responder, Response> ht = new Hashtable<>(120, 1.0f);
+            data.put(allQuestion, ht);
+            for (Responder allResponder : allResponders) {
+                for (Response response : allResponder.getResponses()) {
+                    ht.put(allResponder, response);
+                }
+            }
+        }
+
+        Object[][] dataArray = new Object[allQuestions.size()][3 + names.size()];
+
         for (int i = 0; i < allQuestions.size(); i++) {
             Question aQuestion = allQuestions.get(i);
-            data[i][0] = aQuestion.getId();
-            data[i][1] = aQuestion.getQuestion();
-            data[i][2] = aQuestion.getCriteria();
+            dataArray[i][0] = aQuestion.getId();
+            dataArray[i][1] = aQuestion.getQuestion();
+            dataArray[i][2] = aQuestion.getCriteria();
             int counter = 0;
             for (Responder responder : allResponders) {
                 for (Response response : responder.getResponses()) {
+
                     if (response.getQuestion().equals(aQuestion)) {
-                        data[i][3 + counter] = 1 + response.getResponse().ordinal();
+                        dataArray[i][3 + counter] = 1 + response.getResponse().ordinal();
                     }
                 }
                 if (responder.getResponses().size() != 0) {
@@ -89,7 +103,7 @@ public class Reporter {
                 }
             }
         }
-        return data;
+        return dataArray;
     }
 
     private List<String> getActualNames(List<Responder> allResponders) {
