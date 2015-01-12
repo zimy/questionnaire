@@ -53,7 +53,7 @@ public class Reporter {
         } else {
             logger.info("Data changed since previous reporting, starting generation of new report.");
             lastResponse = currentResponses;
-            emailData(false);
+            mailer.emailReport(getReport(), false);
         }
     }
 
@@ -112,9 +112,5 @@ public class Reporter {
             logger.error("Error while working with spreadsheet: " + e.getMessage());
             return null;
         }
-    }
-
-    private void emailData(boolean requested) {
-        mailer.emailReport(getReport(), requested);
     }
 }
