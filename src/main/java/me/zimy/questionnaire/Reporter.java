@@ -65,17 +65,23 @@ public class Reporter {
         String[] allColumns = new String[columns.length + names.size()];
         System.arraycopy(columns, 0, allColumns, 0, columns.length);
         System.arraycopy(names.toArray(new String[names.size()]), 0, allColumns, columns.length, names.size());
-        Object[][] Data = new Object[allQuestions.size()][3 + names.size()];
+        Report report = new Report();
+        report.addPage("All", new DefaultTableModel(getData(allQuestions, allResponders, names), allColumns));
+        return report;
+    }
+
+    private Object[][] getData(List<Question> allQuestions, List<Responder> allResponders, List<String> names) {
+        Object[][] data = new Object[allQuestions.size()][3 + names.size()];
         for (int i = 0; i < allQuestions.size(); i++) {
             Question aQuestion = allQuestions.get(i);
-            Data[i][0] = aQuestion.getId();
-            Data[i][1] = aQuestion.getQuestion();
-            Data[i][2] = aQuestion.getCriteria();
+            data[i][0] = aQuestion.getId();
+            data[i][1] = aQuestion.getQuestion();
+            data[i][2] = aQuestion.getCriteria();
             int counter = 0;
             for (Responder responder : allResponders) {
                 for (Response response : responder.getResponses()) {
                     if (response.getQuestion().equals(aQuestion)) {
-                        Data[i][3 + counter] = 1 + response.getResponse().ordinal();
+                        data[i][3 + counter] = 1 + response.getResponse().ordinal();
                     }
                 }
                 if (responder.getResponses().size() != 0) {
@@ -83,9 +89,7 @@ public class Reporter {
                 }
             }
         }
-        Report report = new Report();
-        report.addPage("All", new DefaultTableModel(Data, allColumns));
-        return report;
+        return data;
     }
 
     private List<String> getActualNames(List<Responder> allResponders) {
