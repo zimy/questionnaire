@@ -28,6 +28,7 @@ import java.util.List;
  * @since 12/26/14.
  */
 @Component
+@Transactional
 public class Reporter {
     private final Logger logger = LoggerFactory.getLogger(Reporter.class);
     @Autowired
@@ -61,6 +62,7 @@ public class Reporter {
     public Report getReported() {
         List<Responder> allResponders = responderService.getAll();
         List<Question> allQuestions = questionService.getAll();
+        List<Response> allResponses = responseService.getAll();
         List<String> names = getActualNames(allResponders);
         String[] columns = new String[]{"Id", "Question text", "Group"};
         String[] allColumns = new String[columns.length + names.size()];
@@ -68,21 +70,37 @@ public class Reporter {
         System.arraycopy(names.toArray(new String[names.size()]), 0, allColumns, columns.length, names.size());
         Report report = new Report();
         report.addPage("All", new DefaultTableModel(getData(allQuestions, allResponders, names), allColumns));
+        report.addPage("Alternative generator", new DefaultTableModel(transformDataMapToArray(getData(allQuestions, allResponses), names), allColumns));
         return report;
     }
 
-    private Object[][] getData(List<Question> allQuestions, List<Responder> allResponders, List<String> names) {
+    private Hashtable<Question, Hashtable<Responder, Response>> getData(List<Question> allQuestions, List<Response> allResponses) {
         Hashtable<Question, Hashtable<Responder, Response>> data = new Hashtable<>();
         for (Question allQuestion : allQuestions) {
-            Hashtable<Responder, Response> ht = new Hashtable<>(120, 1.0f);
-            data.put(allQuestion, ht);
-            for (Responder allResponder : allResponders) {
-                for (Response response : allResponder.getResponses()) {
-                    ht.put(allResponder, response);
-                }
-            }
+            data.put(allQuestion, new Hashtable<>());
         }
+        for (Response allResponse : allResponses) {
+            data.get(allResponse.getQuestion()).put(allResponse.getResponder(), allResponse);
+        }
+        return data;
+    }
 
+    private Object[][] transformDataMapToArray(Hashtable<Question, Hashtable<Responder, Response>> data, List<String> names) {
+        Object[][] dataArray = new Object[data.size()][3 + names.size()];
+        int i = 0;
+        for (Question question : data.keySet()) {
+            dataArray[i][0] = question.getId();
+            dataArray[i][1] = question.getQuestion();
+            dataArray[i][2] = question.getCriteria();
+            for (Response response : data.get(question).values()) {
+                dataArray[i][3 + names.indexOf(response.getResponder().getIdentifier())] = 1 + response.getResponse().ordinal();
+            }
+            i++;
+        }
+        return dataArray;
+    }
+
+    private Object[][] getData(List<Question> allQuestions, List<Responder> allResponders, List<String> names) {
         Object[][] dataArray = new Object[allQuestions.size()][3 + names.size()];
 
         for (int i = 0; i < allQuestions.size(); i++) {
