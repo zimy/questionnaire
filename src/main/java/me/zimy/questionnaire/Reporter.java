@@ -70,7 +70,10 @@ public class Reporter {
         System.arraycopy(names.toArray(new String[names.size()]), 0, allColumns, columns.length, names.size());
         Report report = new Report();
         report.addPage("All", new DefaultTableModel(getData(allQuestions, allResponders, names), allColumns));
-        report.addPage("Alternative generator", new DefaultTableModel(transformDataMapToArray(getData(allQuestions, allResponses), names), allColumns));
+        report.addPage("Anime", new DefaultTableModel(transformDataMapToArray(getData(allQuestions, allResponses), names), allColumns));
+        report.addPage("Cosplay", new DefaultTableModel(transformDataMapToArray(getData(allQuestions, allResponses), names), allColumns));
+        report.addPage("Both", new DefaultTableModel(transformDataMapToArray(getData(allQuestions, allResponses), names), allColumns));
+        report.addPage("Others", new DefaultTableModel(transformDataMapToArray(getData(allQuestions, allResponses), names), allColumns));
         return report;
     }
 
