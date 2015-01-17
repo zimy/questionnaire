@@ -1,8 +1,10 @@
 package me.zimy.questionnaire;
 
+import me.zimy.questionnaire.domain.Domain;
 import me.zimy.questionnaire.domain.Question;
 import me.zimy.questionnaire.domain.Responder;
 import me.zimy.questionnaire.domain.Response;
+import me.zimy.questionnaire.reporting.Predicate;
 import me.zimy.questionnaire.reporting.Report;
 import me.zimy.questionnaire.services.QuestionService;
 import me.zimy.questionnaire.services.ResponderService;
@@ -70,20 +72,49 @@ public class Reporter {
         System.arraycopy(names.toArray(new String[names.size()]), 0, allColumns, columns.length, names.size());
         Report report = new Report();
         report.addPage("All", new DefaultTableModel(getData(allQuestions, allResponders, names), allColumns));
-        report.addPage("Anime", new DefaultTableModel(transformDataMapToArray(getData(allQuestions, allResponses), names), allColumns));
-        report.addPage("Cosplay", new DefaultTableModel(transformDataMapToArray(getData(allQuestions, allResponses), names), allColumns));
-        report.addPage("Both", new DefaultTableModel(transformDataMapToArray(getData(allQuestions, allResponses), names), allColumns));
-        report.addPage("Others", new DefaultTableModel(transformDataMapToArray(getData(allQuestions, allResponses), names), allColumns));
+        report.addPage("I believe all", new DefaultTableModel(transformDataMapToArray(getData(allQuestions, allResponses, new Predicate<Response>() {
+            @Override
+            public boolean evaluate(Response object) {
+                return true;
+            }
+        }), names), allColumns));
+        report.addPage("Anime", new DefaultTableModel(transformDataMapToArray(getData(allQuestions, allResponses, new Predicate<Response>() {
+            @Override
+            public boolean evaluate(Response object) {
+                return object.getResponder().getDomain().equals(Domain.Anime);
+            }
+        }), names), allColumns));
+        report.addPage("Cosplay", new DefaultTableModel(transformDataMapToArray(getData(allQuestions, allResponses, new Predicate<Response>() {
+            @Override
+            public boolean evaluate(Response object) {
+                return object.getResponder().getDomain().equals(Domain.Cosplay);
+            }
+        }), names), allColumns));
+        report.addPage("Both", new DefaultTableModel(transformDataMapToArray(getData(allQuestions, allResponses, new Predicate<Response>() {
+            @Override
+            public boolean evaluate(Response object) {
+                return object.getResponder().getDomain().equals(Domain.Both);
+            }
+        }), names), allColumns));
+        report.addPage("Others", new DefaultTableModel(transformDataMapToArray(getData(allQuestions, allResponses, new Predicate<Response>() {
+            @Override
+            public boolean evaluate(Response object) {
+                return object.getResponder().getDomain().equals(Domain.Nothing);
+
+            }
+        }), names), allColumns));
         return report;
     }
 
-    private Hashtable<Question, Hashtable<Responder, Response>> getData(List<Question> allQuestions, List<Response> allResponses) {
+    private Hashtable<Question, Hashtable<Responder, Response>> getData(List<Question> allQuestions, List<Response> allResponses, Predicate<Response> predicate) {
         Hashtable<Question, Hashtable<Responder, Response>> data = new Hashtable<>();
         for (Question allQuestion : allQuestions) {
-            data.put(allQuestion, new Hashtable<>());
+            data.put(allQuestion, new Hashtable<Responder, Response>());
         }
         for (Response allResponse : allResponses) {
-            data.get(allResponse.getQuestion()).put(allResponse.getResponder(), allResponse);
+            if (predicate.evaluate(allResponse)) {
+                data.get(allResponse.getQuestion()).put(allResponse.getResponder(), allResponse);
+            }
         }
         return data;
     }
