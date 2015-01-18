@@ -71,8 +71,7 @@ public class Reporter {
         System.arraycopy(columns, 0, allColumns, 0, columns.length);
         System.arraycopy(names.toArray(new String[names.size()]), 0, allColumns, columns.length, names.size());
         Report report = new Report();
-        report.addPage("All", new DefaultTableModel(getData(allQuestions, allResponders, names), allColumns));
-        report.addPage("I believe all", new DefaultTableModel(transformDataMapToArray(getData(allQuestions, allResponses, new Predicate<Response>() {
+        report.addPage("All", new DefaultTableModel(transformDataMapToArray(getData(allQuestions, allResponses, new Predicate<Response>() {
             @Override
             public boolean evaluate(Response object) {
                 return true;
@@ -103,6 +102,8 @@ public class Reporter {
 
             }
         }), names), allColumns));
+        report.addPage("All with older generation method", new DefaultTableModel(getData(allQuestions, allResponders, names), allColumns));
+
         return report;
     }
 
