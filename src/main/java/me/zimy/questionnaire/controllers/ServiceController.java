@@ -1,5 +1,6 @@
 package me.zimy.questionnaire.controllers;
 
+import me.zimy.questionnaire.Mailer;
 import me.zimy.questionnaire.Reporter;
 import me.zimy.questionnaire.domain.Question;
 import me.zimy.questionnaire.domain.Responder;
@@ -30,6 +31,8 @@ public class ServiceController {
     @Autowired
     Reporter reporter;
     @Autowired
+    Mailer mailer;
+    @Autowired
     private ResponderService responderService;
     @Autowired
     private QuestionService questionService;
@@ -49,13 +52,13 @@ public class ServiceController {
     @RequestMapping(value = "/report", method = RequestMethod.GET)
     @ResponseBody
     public String requestEmailReport() {
-        reporter.sendEmailReport();
+        mailer.emailReport(reporter.getReport(), true);
         return "You will get reported soon.";
     }
 
     @RequestMapping(value = "/report/get", method = RequestMethod.GET)
     public void download(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Path report = reporter.getReportAsPath();
+        Path report = reporter.getReport();
         String mimeType = request.getServletContext().getMimeType(report.toFile().getAbsolutePath());
         response.setContentType(mimeType == null ? "application/octet-stream" : mimeType);
         response.setHeader("Content-Disposition", "inline; filename=\"report.ods\"");

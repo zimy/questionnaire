@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import me.zimy.questionnaire.configuration.MailDaemonConfiguration;
 import me.zimy.questionnaire.configuration.NotificationConfiguration;
 import me.zimy.questionnaire.configuration.RecipientList;
+import me.zimy.questionnaire.configuration.RequestReportConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -25,7 +26,7 @@ public class ReportPreparer {
     @Autowired
     private MailDaemonConfiguration senderConfiguration;
     @Autowired
-    private NotificationConfiguration requestReportConfiguration;
+    private RequestReportConfiguration requestReportConfiguration;
     @Autowired
     private NotificationConfiguration scheduledReportConfiguration;
 
