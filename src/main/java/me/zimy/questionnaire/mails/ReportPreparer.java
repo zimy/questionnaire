@@ -2,9 +2,9 @@ package me.zimy.questionnaire.mails;
 
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import me.zimy.questionnaire.configuration.MailDaemonConfiguration;
-import me.zimy.questionnaire.configuration.NotificationConfiguration;
 import me.zimy.questionnaire.configuration.RecipientList;
 import me.zimy.questionnaire.configuration.RequestReportConfiguration;
+import me.zimy.questionnaire.configuration.ScheduledReportConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -28,7 +28,7 @@ public class ReportPreparer {
     @Autowired
     private RequestReportConfiguration requestReportConfiguration;
     @Autowired
-    private NotificationConfiguration scheduledReportConfiguration;
+    private ScheduledReportConfiguration scheduledReportConfiguration;
 
     public MimeMessagePreparator requestReport(final Path path, final boolean requested) {
         return new MimeMessagePreparator() {
