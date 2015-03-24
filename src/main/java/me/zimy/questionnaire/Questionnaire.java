@@ -2,7 +2,8 @@ package me.zimy.questionnaire;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.context.embedded.ServletContextInitializer;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -26,7 +27,7 @@ import javax.servlet.ServletException;
 @ComponentScan
 @EnableScheduling
 @EnableAutoConfiguration
-public class Questionnaire implements ServletContextInitializer {
+public class Questionnaire extends SpringBootServletInitializer {
     public static void main(String[] args) {
         SpringApplication.run(Questionnaire.class, args);
     }
@@ -51,5 +52,10 @@ public class Questionnaire implements ServletContextInitializer {
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         servletContext.getSessionCookieConfig().setName("ci-session");
+    }
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(Questionnaire.class);
     }
 }
