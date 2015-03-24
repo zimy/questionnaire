@@ -1,5 +1,6 @@
 package me.zimy.questionnaire;
 
+import me.zimy.questionnaire.configuration.QuestionBaseConfiguration;
 import me.zimy.questionnaire.domain.Gender;
 import me.zimy.questionnaire.domain.Question;
 import me.zimy.questionnaire.services.QuestionService;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 /**
@@ -27,11 +29,15 @@ public class StartupQuestionLoader {
     private static Logger logger = LoggerFactory.getLogger(StartupQuestionLoader.class);
     @Autowired
     QuestionService questionService;
+    @Autowired
+    QuestionBaseConfiguration questionBaseConfiguration;
 
     @PostConstruct
     public void start() {
         try {
-            InputStream inputStream = ClassLoader.getSystemResource("QuestionList.ods").openStream();
+            logger.info("Opening sheet file \""+questionBaseConfiguration.getQuestionfile()+"\"");
+            Path source = Paths.get(questionBaseConfiguration.getQuestionfile());
+            InputStream inputStream = Files.newInputStream(source);
             Path target = Files.createTempFile("Questionnaire", ".ods");
             Files.copy(inputStream, target, StandardCopyOption.REPLACE_EXISTING);
             if (Files.exists(target)) {
