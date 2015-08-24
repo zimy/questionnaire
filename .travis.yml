@@ -4,25 +4,18 @@ jdk:
   - oraclejdk7
   - openjdk7
 before_install:
-  - "if [ ! -d gradle/gradle-2.3 ] ;
+  - "if [ ! -d gradle/gradle-2.5 ] ;
      then
      mkdir gradle;
      pushd gradle;
-     wget http://services.gradle.org/distributions/gradle-2.3-bin.zip;
-     unzip gradle-2.3-bin.zip;
-     rm -f gradle-2.3-bin.zip;
+     wget http://services.gradle.org/distributions/gradle-2.5-bin.zip;
+     unzip gradle-2.5-bin.zip;
+     rm -f gradle-2.5-bin.zip;
      popd;
      fi;
      export GRADLE_USER_HOME=gradle ;
-     export GRADLE_HOME=gradle/gradle-2.3 ;
+     export GRADLE_HOME=gradle/gradle-2.5 ;
      export PATH=$GRADLE_HOME/bin:$PATH"
-sudo: false
-cache:
-  directories:
-    - gradle/natives
-    - gradle/gradle-2.3
-    - gradle/caches/2.3
-    - gradle/caches/modules-2/files-2.1
 deploy:
   - provider: openshift
     domain: whole
