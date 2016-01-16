@@ -1,10 +1,10 @@
 #!/bin/bash
 set -x
-if [ ! -d $OPENSHIFT_DATA_DIR/gradle-2.6 ]
+if [ ! -d $OPENSHIFT_DATA_DIR/gradle-2.9 ]
 then
     cd $OPENSHIFT_DATA_DIR
     mkdir gradle
-    wget http://services.gradle.org/distributions/gradle-2.6-bin.zip
-    unzip gradle-2.6-bin.zip
-    rm -f gradle-2.6-bin.zip
+    wget https://services.gradle.org/distributions/gradle-2.9-bin.zip
+    unzip gradle-2.9-bin.zip
+    rm -f gradle-2.9-bin.zip
 fi
