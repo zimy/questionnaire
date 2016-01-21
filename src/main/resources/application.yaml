@@ -10,35 +10,9 @@ spring:
     check-template-location: false
 server:
   port: 8080
-  tomcat:
-    access-log-enabled: true
 logging:
   level: info
   path: /tmp/questionnaire/
----
-
-spring:
-  profiles: development
-  jpa:
-    show-sql: true
-    hibernate.ddl-auto: update
-  datasource:
-      url: jdbc:hsqldb:mem:questionnaire
-      driverClassName: org.hsqldb.jdbcDriver
-  thymeleaf:
-    cache: false
-logging:
-  level:
-    me:
-      zimy:
-        questionnaire:
-          StartupDatabaseFiller: TRACE
-http:
-  mappers:
-    json-pretty-print: true
-    json-sort-keys: true
-server:
-  port: 0
 ---
 spring:
   profiles: openshift
