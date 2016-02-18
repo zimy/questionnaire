@@ -71,22 +71,22 @@ public class LikenessConfiguration {
     public String getAnswerText(Likeness response) {
         String result = null;
         switch (response) {
-            case VeryUnlikely:
+            case Likeness.VeryUnlikely:
                 result = getVeryUnlikely();
                 break;
-            case Unlikely:
+            case Likeness.Unlikely:
                 result = getUnlikely();
                 break;
-            case SlightlyUnlikely:
+            case Likeness.SlightlyUnlikely:
                 result = getSlightlyUnlikely();
                 break;
-            case SlightlyLikely:
+            case Likeness.SlightlyLikely:
                 result = getSlightlyLikely();
                 break;
-            case Likely:
+            case Likeness.Likely:
                 result = getLikely();
                 break;
-            case VeryLikely:
+            case Likeness.VeryLikely:
                 result = getVeryLikely();
                 break;
         }

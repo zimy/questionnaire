@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties
 public class QuestionBaseConfiguration {
-    String QuestionFile = "./QuestionList.ods";
+    String QuestionFile = "QuestionList.ods";
 
     public String getQuestionfile() {
         return QuestionFile;

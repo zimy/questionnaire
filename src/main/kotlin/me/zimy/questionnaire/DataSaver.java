@@ -4,9 +4,9 @@ import me.zimy.questionnaire.domain.Likeness;
 import me.zimy.questionnaire.domain.Question;
 import me.zimy.questionnaire.domain.Responder;
 import me.zimy.questionnaire.domain.Response;
-import me.zimy.questionnaire.services.QuestionService;
-import me.zimy.questionnaire.services.ResponderService;
-import me.zimy.questionnaire.services.ResponseService;
+import me.zimy.questionnaire.repositories.QuestionRepository;
+import me.zimy.questionnaire.repositories.ResponderRepository;
+import me.zimy.questionnaire.repositories.ResponseRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +28,11 @@ import java.util.concurrent.Future;
 public class DataSaver {
     private final Logger logger = LoggerFactory.getLogger(DataSaver.class);
     @Autowired
-    private ResponderService responderService;
+    private ResponderRepository responderService;
     @Autowired
-    private QuestionService questionService;
+    private QuestionRepository questionService;
     @Autowired
-    private ResponseService responseService;
-    @Autowired
-    private Mailer mailer;
+    private ResponseRepository responseService;
 
     /**
      * This  method is for storing answers of responders.
@@ -54,8 +52,8 @@ public class DataSaver {
                     continue;
                 }
                 parsedQuestionId = Long.parseLong(s);
-                Question question = questionService.find(parsedQuestionId);
-                Response response = new Response(Likeness.valueOf(params.get(s)), question);
+                Question question = questionService.findOne(parsedQuestionId);
+                Response response = new Response("", Likeness.valueOf(params.get(s)), question, responder);
                 responder.getResponses().add(response);
                 question.getResponseList().add(response);
                 response.setResponder(responder);
@@ -64,7 +62,6 @@ public class DataSaver {
                 responseService.save(response);
             }
             responderService.save(responder);
-            mailer.notifyOnResponderDone(responder);
             logger.info("All answers for responder #" + parsedResponderId + " saved.");
         } catch (NumberFormatException | NullPointerException e) {
             logger.warn("Somebody passed strange data in Id:" + sessionId);

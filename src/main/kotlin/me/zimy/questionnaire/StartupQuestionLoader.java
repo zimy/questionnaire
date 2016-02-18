@@ -18,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 
 /**
  * @author Dmitriy &lt;Zimy&gt; Yakovlev
@@ -28,15 +29,15 @@ class StartupQuestionLoader {
 
     private static Logger logger = LoggerFactory.getLogger(StartupQuestionLoader.class);
     @Autowired
-    private QuestionRepository questionService;
+    private QuestionRepository questions;
     @Autowired
-    private QuestionBaseConfiguration questionBaseConfiguration;
+    private QuestionBaseConfiguration questionConfiguration;
 
     @PostConstruct
     public void start() {
         try {
-            logger.info("Opening sheet file \""+questionBaseConfiguration.getQuestionfile()+"\"");
-            Path source = Paths.get(questionBaseConfiguration.getQuestionfile());
+            logger.info("Opening sheet file \"" + questionConfiguration.getQuestionfile() + "\"");
+            Path source = Paths.get(questionConfiguration.getQuestionfile());
             InputStream inputStream = Files.newInputStream(source);
             Path target = Files.createTempFile("Questionnaire", ".ods");
             Files.copy(inputStream, target, StandardCopyOption.REPLACE_EXISTING);
@@ -60,13 +61,10 @@ class StartupQuestionLoader {
             int counter = 1;
             Question question = readQuestionFromStyleSheet(sheet, counter);
             while (question != null) {
-                Question lookup = questionService.getByQuestion(question.getQuestion());
+                Question lookup = questions.getByQuestion(question.getQuestion());
                 Question writeResult;
-                if (lookup == null) {
-                    writeResult = questionService.save(question);
-                    logger.info("Get new question with id==" + question.getId() + " as " + writeResult.getId());
-                } else if (!lookup.equals(question)) {
-                    writeResult = questionService.save(question);
+                if (!lookup.equals(question)) {
+                    writeResult = questions.save(question);
                     logger.info("Updated question with id==" + lookup.getId() + " as " + writeResult.getId() + " and original id==" + question.getId());
                 } else {
                     logger.debug("Duplicate question found, skipping");
@@ -98,10 +96,7 @@ class StartupQuestionLoader {
             try {
                 Gender gender = Gender.valueOf(textGender);
                 Integer criteria = Integer.valueOf(textCriteria);
-                result = new Question(textText);
-                result.setId(textId);
-                result.setCriteria(criteria);
-                result.setTargetGender(gender);
+                result = new Question(textId, textText, gender, criteria, new ArrayList<>());
             } catch (NumberFormatException e) {
                 logger.error("Incorrect value of ID in a " + (row + 1) + " row");
             } catch (IllegalArgumentException e) {

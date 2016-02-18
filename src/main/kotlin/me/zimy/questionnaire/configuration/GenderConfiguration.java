@@ -37,10 +37,10 @@ public class GenderConfiguration {
     public String getGenderText(Gender gender) {
         String result = null;
         switch (gender) {
-            case Male:
+            case Gender.Male:
                 result = getMale();
                 break;
-            case Female:
+            case Gender.Female:
                 result = getFemale();
                 break;
         }
