@@ -1,8 +1,41 @@
-spring:
-  application:
-    name: Questionnaire
-server:
-  port: 8080
-logging:
-  level: info
-  path: /tmp/questionnaire/
+mail:
+  daemon:
+    host: smtp.yandex.ru
+    port: 465
+    ssl: true
+    email: zimy@yandex.ru
+    username: zimy
+    password: iVfmvMXRul5Js3j
+    debug: false
+  recipients:
+    - diyakovlev@edu.hse.ru
+    - daf3nka@ya.ru
+  notification:
+    subject: "Анкета заполнена."
+    text: "Анкету заполнили. Респондент № %1$d: %2$s (%3$s, %4$s, %5$d).\nОтветы:\n%6$s"
+  report:
+    scheduled:
+      subject: "Еженедельный отчёт"
+      text: "Во вложении находится таблица с еженедельным отчётом.\nДанные актуальны на момент %1$s.\nДанное сообщение отправлено автоматически и отвечать на него не нужно."
+    request:
+      subject: "Отчёт по запросу"
+      text: "Во вложении находится таблица с запрошенным отчётом.\nДанные актуальны на момент %1$s.\nДанное сообщение отправлено автоматически и отвечать на него не нужно."
+QuestionFile: "/var/lib/openshift/5483214c5973ca4f900000de/app-root/data/QuestionList.ods"
+likeness:
+  veryUnlikely: "совсем не похоже"
+  unlikely: "не похоже"
+  slightlyUnlikely: "мало похоже"
+  slightlyLikely: "умеренно похоже"
+  likely: "похоже"
+  veryLikely: "очень похоже"
+
+gender:
+  male: "мужской"
+  female: "женский"
+
+domain:
+  Nothing: "ни аниме, ни косплей"
+  Anime: "аниме"
+  Cosplay: "косплей"
+  Both: "и аниме, и косплей"
+---
