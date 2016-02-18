@@ -1,7 +1,7 @@
 package me.zimy.questionnaire.repositories;
 
 import me.zimy.questionnaire.domain.Responder;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
  * @since 12/4/14.
  */
 @Repository
-public interface ResponderRepository extends JpaRepository<Responder, Long> {
+public interface ResponderRepository extends MongoRepository<Responder, Long> {
 }

@@ -1,5 +1,0 @@
-#!/bin/bash
-export JAVA_HOME=/etc/alternatives/java_sdk_1.8.0
-export PATH=$JAVA_HOME/bin:$PATH
-cd $OPENSHIFT_REPO_DIR
-nohup java -Xms128m -Xmx512m -jar build/libs/*.jar --spring.config.location=$OPENSHIFT_DATA_DIR  --spring.profiles.active=openshift &

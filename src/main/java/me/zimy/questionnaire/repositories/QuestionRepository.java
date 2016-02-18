@@ -2,7 +2,7 @@ package me.zimy.questionnaire.repositories;
 
 import me.zimy.questionnaire.domain.Gender;
 import me.zimy.questionnaire.domain.Question;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
  * @since 12/1/14.
  */
 @Repository
-public interface QuestionRepository extends JpaRepository<Question, Long> {
+public interface QuestionRepository extends MongoRepository<Question, Long> {
     List<Question> getByTargetGender(Gender gender);
 
     Question getByQuestion(String question);

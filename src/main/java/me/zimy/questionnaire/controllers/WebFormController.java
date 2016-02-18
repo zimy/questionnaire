@@ -2,8 +2,8 @@ package me.zimy.questionnaire.controllers;
 
 import me.zimy.questionnaire.DataSaver;
 import me.zimy.questionnaire.domain.Responder;
-import me.zimy.questionnaire.services.QuestionService;
-import me.zimy.questionnaire.services.ResponderService;
+import me.zimy.questionnaire.repositories.QuestionRepository;
+import me.zimy.questionnaire.repositories.ResponderRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Map;
-import java.util.concurrent.Future;
 
 /**
  * Main controller
@@ -29,13 +28,13 @@ import java.util.concurrent.Future;
 @RequestMapping("/")
 public class WebFormController {
 
-    Logger logger = LoggerFactory.getLogger(WebFormController.class);
+    private Logger logger = LoggerFactory.getLogger(WebFormController.class);
 
     @Autowired
-    private ResponderService responderService;
+    private ResponderRepository responderService;
 
     @Autowired
-    private QuestionService questionService;
+    private QuestionRepository questionService;
 
     @Autowired
     private DataSaver dataSaver;
@@ -61,7 +60,7 @@ public class WebFormController {
         }
         responderService.save(responder);
         logger.info("Responder:" + responder.getIdentifier() + " (" + responder.getGender() + ", " + responder.getDomain() + ", " + responder.getAge() + ") #" + responder.getId());
-        model.addAttribute("questions", questionService.getByGender(responder.getGender()));
+        model.addAttribute("questions", questionService.getByTargetGender(responder.getGender()));
         session.setAttribute("id", responder.getId());
         return "standardQuestionnaire";
     }
@@ -73,7 +72,7 @@ public class WebFormController {
             return "commonQuestions";
         }
         String sessionId = String.valueOf(session.getAttribute("id"));
-        Future<Boolean> booleanFuture = dataSaver.handleSendData(params, sessionId);
+        dataSaver.handleSendData(params, sessionId);
         logger.info("#" + sessionId + " completed the survey instance");
         return "thanks";
     }

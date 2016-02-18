@@ -2,8 +2,8 @@ package me.zimy.questionnaire.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.annotation.Id;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +15,8 @@ import java.util.List;
  * @author Dmitriy &lt;Zimy&gt; Yakovlev
  * @since 12/4/14.
  */
-@Entity
 public class Responder {
     @Id
-    @GeneratedValue
     Long id;
     @NotNull
     Long age;
@@ -30,7 +28,6 @@ public class Responder {
     @Length(min = 1)
     String identifier;
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL)
     List<Response> responses;
 
     public Responder() {
@@ -95,9 +92,8 @@ public class Responder {
         if (age != null ? !age.equals(responder.age) : responder.age != null) return false;
         if (domain != responder.domain) return false;
         if (gender != responder.gender) return false;
-        if (identifier != null ? !identifier.equals(responder.identifier) : responder.identifier != null) return false;
+        return identifier != null ? identifier.equals(responder.identifier) : responder.identifier == null;
 
-        return true;
     }
 
     @Override

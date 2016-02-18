@@ -3,7 +3,7 @@ package me.zimy.questionnaire;
 import me.zimy.questionnaire.configuration.QuestionBaseConfiguration;
 import me.zimy.questionnaire.domain.Gender;
 import me.zimy.questionnaire.domain.Question;
-import me.zimy.questionnaire.services.QuestionService;
+import me.zimy.questionnaire.repositories.QuestionRepository;
 import org.jopendocument.dom.spreadsheet.Sheet;
 import org.jopendocument.dom.spreadsheet.SpreadSheet;
 import org.slf4j.Logger;
@@ -24,13 +24,13 @@ import java.nio.file.StandardCopyOption;
  * @since 12/7/14.
  */
 @Component
-public class StartupQuestionLoader {
+class StartupQuestionLoader {
 
     private static Logger logger = LoggerFactory.getLogger(StartupQuestionLoader.class);
     @Autowired
-    QuestionService questionService;
+    private QuestionRepository questionService;
     @Autowired
-    QuestionBaseConfiguration questionBaseConfiguration;
+    private QuestionBaseConfiguration questionBaseConfiguration;
 
     @PostConstruct
     public void start() {
@@ -53,14 +53,14 @@ public class StartupQuestionLoader {
         }
     }
 
-    void readFromSpreadSheet(Sheet sheet) {
+    private void readFromSpreadSheet(Sheet sheet) {
         if (!testSpreadSheet(sheet)) {
             logger.error("Incorrect headers in question spreadsheet");
         } else {
             int counter = 1;
             Question question = readQuestionFromStyleSheet(sheet, counter);
             while (question != null) {
-                Question lookup = questionService.find(question.getQuestion());
+                Question lookup = questionService.getByQuestion(question.getQuestion());
                 Question writeResult;
                 if (lookup == null) {
                     writeResult = questionService.save(question);
@@ -76,7 +76,7 @@ public class StartupQuestionLoader {
         }
     }
 
-    boolean testSpreadSheet(Sheet sheet) {
+    private boolean testSpreadSheet(Sheet sheet) {
         String cellId = getCell(sheet, 0, 0);
         String cellText = getCell(sheet, 0, 1);
         String cellGender = getCell(sheet, 0, 2);
@@ -84,11 +84,11 @@ public class StartupQuestionLoader {
         return cellId.equals("id") && (cellText.equals("question")) && cellGender.equals("targetGender") && cellCriteria.equals("Criteria");
     }
 
-    String getCell(Sheet sheet, int y, int x) {
+    private String getCell(Sheet sheet, int y, int x) {
         return sheet.getCellAt(x, y).getTextValue();
     }
 
-    Question readQuestionFromStyleSheet(Sheet sheet, int row) {
+    private Question readQuestionFromStyleSheet(Sheet sheet, int row) {
         Question result = null;
         String textId = getCell(sheet, row, 0);
         String textText = getCell(sheet, row, 1);
@@ -96,11 +96,10 @@ public class StartupQuestionLoader {
         String textCriteria = getCell(sheet, row, 3);
         if ((!textId.equals("")) && (!textGender.equals("")) && (!textCriteria.equals(""))) {
             try {
-                Long id = Long.parseLong(textId);
                 Gender gender = Gender.valueOf(textGender);
                 Integer criteria = Integer.valueOf(textCriteria);
                 result = new Question(textText);
-                result.setId(id);
+                result.setId(textId);
                 result.setCriteria(criteria);
                 result.setTargetGender(gender);
             } catch (NumberFormatException e) {

@@ -1,32 +1,8 @@
 spring:
   application:
     name: Questionnaire
-  datasource:
-    url: jdbc:hsqldb:file:./.hsqldb/questionnaire
-    driverClassName: org.hsqldb.jdbcDriver
-  jpa:
-    hibernate.ddl-auto: update
-  thymeleaf:
-    check-template-location: false
 server:
   port: 8080
 logging:
   level: info
   path: /tmp/questionnaire/
----
-spring:
-  profiles: openshift
-  datasource:
-    url: jdbc:postgresql://${OPENSHIFT_POSTGRESQL_DB_HOST}:${OPENSHIFT_POSTGRESQL_DB_PORT}/questionnaire
-    username: ${OPENSHIFT_POSTGRESQL_DB_USERNAME}
-    password: ${OPENSHIFT_POSTGRESQL_DB_PASSWORD}
-    driverClassName: org.postgresql.Driver
-server:
-  address: ${OPENSHIFT_DIY_IP}
-  port: ${OPENSHIFT_DIY_PORT}
-  tomcat:
-    remote_ip_header: x-forwarded-for
-    protocol_header: x-forwarded-proto
-logging:
-  path: ${OPENSHIFT_DATA_DIR}/logs/
----

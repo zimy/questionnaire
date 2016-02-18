@@ -1,8 +1,8 @@
 package me.zimy.questionnaire.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.springframework.data.annotation.Id;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,17 +13,14 @@ import java.util.List;
  * @author Dmitriy &lt;Zimy&gt; Yakovlev
  * @since 12/1/14.
  */
-@Entity
 public class Question {
 
     @Id
-    @GeneratedValue
-    Long id;
+    String id;
     String question;
     Gender targetGender;
     Integer Criteria;
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL)
     List<Response> responseList = new ArrayList<>();
 
     public Question() {
@@ -42,11 +39,11 @@ public class Question {
         this.responseList = responseList;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -83,9 +80,8 @@ public class Question {
 
         if (Criteria != null ? !Criteria.equals(question1.Criteria) : question1.Criteria != null) return false;
         if (question != null ? !question.equals(question1.question) : question1.question != null) return false;
-        if (targetGender != question1.targetGender) return false;
+        return targetGender == question1.targetGender;
 
-        return true;
     }
 
     @Override

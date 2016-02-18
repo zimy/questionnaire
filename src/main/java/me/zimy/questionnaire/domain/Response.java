@@ -3,11 +3,8 @@ package me.zimy.questionnaire.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.data.annotation.Id;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -16,19 +13,15 @@ import javax.validation.constraints.NotNull;
  * @author Dmitriy &lt;Zimy&gt; Yakovlev
  * @since 12/1/14.
  */
-@Entity
 public class Response {
     @Id
     @JsonIgnore
-    @GeneratedValue
-    Long id;
+    String id;
     @NotNull
     Likeness response;
     @JsonBackReference
-    @ManyToOne
     Question question;
     @JsonBackReference
-    @ManyToOne
     Responder responder;
 
     public Response() {
@@ -40,11 +33,11 @@ public class Response {
         this.question = question;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -73,7 +66,7 @@ public class Response {
     }
 
     @JsonProperty
-    public Long questionId() {
+    public String questionId() {
         return question.getId();
     }
 
@@ -87,9 +80,8 @@ public class Response {
         if (id != null ? !id.equals(response1.id) : response1.id != null) return false;
         if (question != null ? !question.equals(response1.question) : response1.question != null) return false;
         if (responder != null ? !responder.equals(response1.responder) : response1.responder != null) return false;
-        if (response != response1.response) return false;
+        return response == response1.response;
 
-        return true;
     }
 
     @Override
