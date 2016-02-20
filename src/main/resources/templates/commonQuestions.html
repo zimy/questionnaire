@@ -42,16 +42,16 @@
 
     <p>Что больше интересует?</p>
 
-    <p th:if="${#fields.hasErrors('domain')}" th:errors="*{domain}">Совсем ошибка</p>
+    <p th:if="${#fields.hasErrors('interest')}" th:errors="*{interest}">Совсем ошибка</p>
     <ul>
-        <li><input type="radio" value="Both" name="domain" id="domain-cosplay" required="required"/><label
-                for="domain-cosplay">Всё!!!!!!!11111!</label></li>
-        <li><input type="radio" value="Anime" name="domain" id="domain-cosplay" required="required"/><label
-                for="domain-cosplay">Аниме.</label></li>
-        <li><input type="radio" value="Marvell" name="domain" id="domain-cosplay" required="required"/><label
-                for="domain-cosplay">Marvell.</label></li>
-        <li><input type="radio" value="Nothing" name="domain" id="domain-nothing" required="required"/><label
-                for="domain-nothing">Ни того и ни другого.</label></li>
+        <li><input type="radio" value="Both" name="interest" id="interest-both" required="required"/><label
+                for="interest-both">Всё!!!!!!!11111!</label></li>
+        <li><input type="radio" value="Anime" name="interest" id="interest-anime" required="required"/><label
+                for="interest-anime">Аниме.</label></li>
+        <li><input type="radio" value="Marvell" name="interest" id="interest-marvell" required="required"/><label
+                for="interest-marvell">Marvell.</label></li>
+        <li><input type="radio" value="Nothing" name="interest" id="interest-nothing" required="required"/><label
+                for="interest-nothing">Ни того и ни другого.</label></li>
     </ul>
 
     <input type="submit" value="Продолжить"/>
