@@ -1,3 +1,4 @@
+spring.data.rest.basePath: /api
 mail:
   daemon:
     host: smtp.yandex.ru
@@ -20,7 +21,7 @@ mail:
     request:
       subject: "Отчёт по запросу"
       text: "Во вложении находится таблица с запрошенным отчётом.\nДанные актуальны на момент %1$s.\nДанное сообщение отправлено автоматически и отвечать на него не нужно."
-QuestionFile: "/var/lib/openshift/5483214c5973ca4f900000de/app-root/data/QuestionList.ods"
+QuestionFile: "/home/zimy/Documents/HotProjects/questionnaire-ng/src/main/resources/QuestionList.ods"
 likeness:
   veryUnlikely: "совсем не похоже"
   unlikely: "не похоже"

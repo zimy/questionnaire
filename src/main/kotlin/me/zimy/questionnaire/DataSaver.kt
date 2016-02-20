@@ -21,7 +21,7 @@ import java.util.concurrent.Future
 @Async
 @Service
 @Transactional(rollbackFor = arrayOf(NumberFormatException::class, NullPointerException::class))
-class DataSaver {
+open class DataSaver {
     private val logger = LoggerFactory.getLogger(DataSaver::class.java)
     @Autowired
     private val responderService: ResponderRepository? = null

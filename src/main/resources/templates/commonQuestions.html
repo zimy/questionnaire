@@ -4,7 +4,7 @@
 <head lang="ru">
     <meta charset="UTF-8"/>
     <title>Общие вопросы</title>
-    <link href="../public/common.css" th:attr="href=@{common.css}" rel="stylesheet" type="text/css"/>
+    <link href="../static/common.css" th:attr="href=@{common.css}" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <form class="login" method="post" action="#" th:action="@{/}" th:object="${responder}" accept-charset="UTF-8"
@@ -39,6 +39,21 @@
         <li><input type="radio" value="Nothing" name="domain" id="domain-nothing" required="required"/><label
                 for="domain-nothing">Нет</label></li>
     </ul>
+
+    <p>Что больше интересует?</p>
+
+    <p th:if="${#fields.hasErrors('domain')}" th:errors="*{domain}">Совсем ошибка</p>
+    <ul>
+        <li><input type="radio" value="Both" name="domain" id="domain-cosplay" required="required"/><label
+                for="domain-cosplay">Всё!!!!!!!11111!</label></li>
+        <li><input type="radio" value="Anime" name="domain" id="domain-cosplay" required="required"/><label
+                for="domain-cosplay">Аниме.</label></li>
+        <li><input type="radio" value="Marvell" name="domain" id="domain-cosplay" required="required"/><label
+                for="domain-cosplay">Marvell.</label></li>
+        <li><input type="radio" value="Nothing" name="domain" id="domain-nothing" required="required"/><label
+                for="domain-nothing">Ни того и ни другого.</label></li>
+    </ul>
+
     <input type="submit" value="Продолжить"/>
 </form>
 </body>

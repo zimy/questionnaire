@@ -23,7 +23,7 @@ import javax.annotation.PostConstruct
  * @since 12/7/14.
  */
 @Service
-internal class StartupQuestionLoader {
+open class StartupQuestionLoader {
     @Autowired
     private val questions: QuestionRepository? = null
     @Autowired
@@ -66,7 +66,7 @@ internal class StartupQuestionLoader {
                 val writeResult: Question
                 if (lookup != question) {
                     writeResult = questions.save<Question>(question)
-                    logger.info("Updated question with id==" + lookup.id + " as " + writeResult.id + " and original id==" + question.id)
+                    logger.info("Updated question with id==" + writeResult.id + " as " + writeResult.id + " and original id==" + writeResult.id)
                 } else {
                     logger.debug("Duplicate question found, skipping")
                 }
