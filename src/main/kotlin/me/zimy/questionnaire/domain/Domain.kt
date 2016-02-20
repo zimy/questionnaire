@@ -7,4 +7,4 @@ package me.zimy.questionnaire.domain
  * *
  * @since 12/4/14.
  */
-enum class Domain {Nothing, Anime, Cosplay, Both }
+enum class Domain {Nothing, Cosplay }
