@@ -51,10 +51,9 @@ open class DataSaver {
                 }
                 parsedQuestionId = java.lang.Long.parseLong(s)
                 val question = questionService!!.findOne(parsedQuestionId)
-                val response = Response("", Likeness.valueOf(params[s]!!), question, responder)
+                val response = Response("", Likeness.valueOf(params[s]!!), question)
                 responder.responses.add(response)
                 question.responseList.add(response)
-                response.responder = responder
                 response.question = question
                 questionService.save(question)
                 responseService!!.save(response)
