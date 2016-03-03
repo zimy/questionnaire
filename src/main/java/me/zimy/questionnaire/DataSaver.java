@@ -54,9 +54,7 @@ class DataSaver {
                 Question question = questionService.findOne(s);
                 Response response = new Response("", Likeness.valueOf(params.get(s)), question);
                 responder.getResponses().add(response);
-                question.getResponseList().add(response);
                 response.setQuestion(question);
-                questionService.save(question);
                 responseService.save(response);
             }
             responderService.save(responder);

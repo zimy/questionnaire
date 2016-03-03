@@ -3,7 +3,6 @@ package me.zimy.questionnaire
 import me.zimy.questionnaire.configuration.QuestionBaseConfiguration
 import me.zimy.questionnaire.domain.Gender
 import me.zimy.questionnaire.domain.Question
-import me.zimy.questionnaire.domain.Response
 import me.zimy.questionnaire.repositories.QuestionRepository
 import org.jopendocument.dom.spreadsheet.Sheet
 import org.jopendocument.dom.spreadsheet.SpreadSheet
@@ -14,7 +13,6 @@ import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
-import java.util.*
 import javax.annotation.PostConstruct
 
 /**
@@ -95,7 +93,7 @@ open class StartupQuestionLoader {
         try {
             val gender = Gender.valueOf(textGender)
             val criteria = Integer.valueOf(textCriteria)
-            return Question(textId, textText, gender, criteria!!, ArrayList<Response>())
+            return Question(textId, textText, gender, criteria!!)
         } catch (e: NumberFormatException) {
             logger.error("Incorrect value of ID in a " + (row + 1) + " row")
         } catch (e: IllegalArgumentException) {
