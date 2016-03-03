@@ -11,9 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Map;
 
@@ -25,7 +23,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/")
-@SessionAttributes("id")
+@SessionAttributes("userId")
 public class WebFormController {
 
     private Logger logger = LoggerFactory.getLogger(WebFormController.class);
@@ -46,32 +44,32 @@ public class WebFormController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST, params = {"identifier", "age", "gender", "domain"})
-    public ModelAndView checkInputFromFirst(@Valid Responder responder, BindingResult bindingResult) {
+    public String checkInputFromFirst(@Valid Responder responder, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             logger.error("Binding errors on first POST");
-            return new ModelAndView("commonQuestions");
+            return "commonQuestions";
         }
         Responder saved = responderService.save(responder);
         logger.info("Responder:" + saved.getIdentifier() + " (" + saved.getGender() + ", " + saved.getDomain() + ", " + saved.getAge() + ") #" + saved.getId());
-        ModelAndView mv = new ModelAndView();
-        mv.addObject("questions", questionService.getByTargetGender(saved.getGender()));
+        model.addAttribute("questions", questionService.getByTargetGender(saved.getGender()));
+        model.addAttribute("userId", saved.getId());
         logger.info("User get attribute = " + saved.getId());
-        mv.addObject("id", saved.getId());
-        mv.setViewName("standardQuestionnaire");
-        return mv;
+        return "standardQuestionnaire";
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String getSecondStageRequest(@RequestParam Map<String, String> params, @ModelAttribute String id, SessionStatus status, HttpSession session) throws InterruptedException {
-        if (id == null) {
+    public String getSecondStageRequest(@RequestParam Map<String, String> params, SessionStatus status, @ModelAttribute("userId") String userId) throws InterruptedException {
+        if (userId == null) {
             logger.error("Binding error on second POST");
             return "commonQuestions";
         }
-        logger.info("Session set value = " + id);
-        logger.info("Session set value = " + session.getAttribute("id"));
+//        logger.info("Session set value = " + id);
+        logger.info("Session set value = " + userId);
 
-        dataSaver.handleSendData(params, id);
-        logger.info("#" + id + " completed the survey instance");
+        logger.info("Params: " + params.toString());
+        logger.info("userId: " + userId);
+        dataSaver.handleSendData(params, userId);
+        logger.info("#" + userId + " completed the survey instance");
         status.setComplete();
         return "thanks";
     }
