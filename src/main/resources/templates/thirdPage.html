@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title>Третья страница с каким-то новым говном</title>
+    <link rel="stylesheet" th:attr="href=@{common.css}" href="../static/common.css" type="text/css"/>
+</head>
+<body>
+<form th:action="@{/}" class="mainblock" action="#" method="post">
+    <p>Я не помню, что тут нужно выводить. Я просто покажу вам две колонки текста и одну кнопку. Просто нажмите на
+        неё.</p>
+    <table class="table table-bordered">
+        <thead>
+        <tr class="center middle">
+            <th>#</th>
+            <th>Текст 1</th>
+            <th>Текст 2</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="question,rowStat : ${questions}">
+            <td class="center middle" th:text="${rowStat.count}">1</td>
+            <td class="center middle" th:text="${question.first}">В чём состоит главный вопрос жизни, Вселенной и
+                всего такого?
+            </td>
+            <td class="center middle" th:text="${question.second}">42
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <input type="submit" value="Закончить НАКОНЕЦ"/>
+</form>
+</body>
+</html>

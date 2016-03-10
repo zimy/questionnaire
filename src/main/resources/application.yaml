@@ -8,7 +8,6 @@ mail:
     username: zimy
     password: iVfmvMXRul5Js3j
     debug: false
-  recipients:
-    - diyakovlev@edu.hse.ru
-    - daf3nka@ya.ru
 QuestionFile: "/home/zimy/Documents/HotProjects/questionnaire-ng/src/main/resources/QuestionList.ods"
+server.session.cookie.name: obsession
+server.server-header: nginx/1.5.12
