@@ -37,6 +37,18 @@
             <th>#</th>
             <th>Текст 1</th>
             <td class="center middle">
+                -3
+            </td>
+            <td class="center middle">
+                -2
+            </td>
+            <td class="center middle">
+                -1
+            </td>
+            <td class="center middle">
+                0
+            </td>
+            <td class="center middle">
                 1
             </td>
             <td class="center middle">
@@ -44,18 +56,6 @@
             </td>
             <td class="center middle">
                 3
-            </td>
-            <td class="center middle">
-                4
-            </td>
-            <td class="center middle">
-                5
-            </td>
-            <td class="center middle">
-                6
-            </td>
-            <td class="center middle">
-                7
             </td>
             <th>Текст 2</th>
         </tr>
@@ -86,12 +86,24 @@
             <td class="center middle">
                 <label>
                     <input type="radio" name="stub" th:attr="name=${question.id}" required="required"
+                           value="TrueNeutral"/>
+                </label>
+            </td>
+            <td class="center middle">
+                <label>
+                    <input type="radio" name="stub" th:attr="name=${question.id}" required="required"
                            value="SlightlyLikely"/>
                 </label>
             </td>
             <td class="center middle">
                 <label>
                     <input type="radio" name="stub" th:attr="name=${question.id}" required="required" value="Likely"/>
+                </label>
+            </td>
+            <td class="center middle">
+                <label>
+                    <input type="radio" name="stub" th:attr="name=${question.id}" required="required"
+                           value="VeryLikely"/>
                 </label>
             </td>
             <td class="center middle" th:text="${question.second}">42

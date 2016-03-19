@@ -7,4 +7,4 @@ package me.zimy.questionnaire.domain
  * *
  * @since 12/1/14.
  */
-enum class Likeness {VeryUnlikely, Unlikely, SlightlyUnlikely, SlightlyLikely, Likely, VeryLikely }
+enum class Likeness {VeryUnlikely, Unlikely, SlightlyUnlikely, TrueNeutral, SlightlyLikely, Likely, VeryLikely}
