@@ -51,6 +51,7 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile 'org.seleniumhq.selenium:selenium-java:2.53.0'
     testCompile 'com.codeborne:phantomjsdriver:1.2.1'
+    testRuntime 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
 }
 
 task wrapper(type: Wrapper) {

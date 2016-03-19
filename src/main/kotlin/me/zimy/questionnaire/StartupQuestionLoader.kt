@@ -11,7 +11,6 @@ import org.jopendocument.dom.spreadsheet.Sheet
 import org.jopendocument.dom.spreadsheet.SpreadSheet
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Service
 import java.io.IOException
 import java.nio.file.Files
@@ -25,7 +24,6 @@ import javax.annotation.PostConstruct
  * @since 12/7/14.
  */
 @Service
-@Profile("initial")
 open class StartupQuestionLoader {
     @Autowired
     lateinit private var questions: QuestionRepository
