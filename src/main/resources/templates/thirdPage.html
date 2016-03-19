@@ -24,6 +24,34 @@
             <td class="center middle" th:text="${question.first}">В чём состоит главный вопрос жизни, Вселенной и
                 всего такого?
             </td>
+            <td class="center middle">
+                <label>
+                    <input type="radio" name="stub" th:attr="name=${question.id}" required="required"
+                           value="VeryUnlikely"/>
+                </label>
+            </td>
+            <td class="center middle">
+                <label>
+                    <input type="radio" name="stub" th:attr="name=${question.id}" required="required" value="Unlikely"/>
+                </label>
+            </td>
+            <td class="center middle">
+                <label>
+                    <input type="radio" name="stub" th:attr="name=${question.id}" required="required"
+                           value="SlightlyUnlikely"/>
+                </label>
+            </td>
+            <td class="center middle">
+                <label>
+                    <input type="radio" name="stub" th:attr="name=${question.id}" required="required"
+                           value="SlightlyLikely"/>
+                </label>
+            </td>
+            <td class="center middle">
+                <label>
+                    <input type="radio" name="stub" th:attr="name=${question.id}" required="required" value="Likely"/>
+                </label>
+            </td>
             <td class="center middle" th:text="${question.second}">42
             </td>
         </tr>

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 
 import javax.validation.Valid;
 import java.util.Map;
@@ -23,8 +24,8 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/")
-@SessionAttributes("userId")
-public class WebFormController {
+@SessionAttributes(names = {"userId", "step"})
+class WebFormController {
 
     private Logger logger = LoggerFactory.getLogger(WebFormController.class);
 
@@ -53,30 +54,34 @@ public class WebFormController {
             return "firstPage";
         }
         Responder saved = responderService.save(responder);
-        logger.info("Responder:" + saved.getIdentifier() + " (" + saved.getGender() + ", " + saved.getDomain() + ", " + saved.getAge() + ") #" + saved.getId());
+        logger.info("Responder:" + saved.getIdentifier() + " (" +
+                saved.getGender() + ", " + saved.getDomain() + ", " + saved.getAge() + ") #" + saved.getId());
         model.addAttribute("questions", questionService.getByTargetGender(saved.getGender()));
         model.addAttribute("userId", saved.getId());
+        model.addAttribute("step", 2);
         return "secondPage";
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String getSecondStageRequest(@RequestParam Map<String, String> params, @ModelAttribute("userId") String userId) throws InterruptedException {
-        if (userId == null) {
-            logger.error("Binding error on second POST");
+    public String getSecondAndThirdStageRequest(
+            @RequestParam Map<String, String> params, Model model,
+            @ModelAttribute("userId") String userId,
+            @ModelAttribute("step") Integer step,
+            SessionStatus session
+    ) throws InterruptedException {
+        if (userId == null || step == null || (step != 2 && step != 3)) {
+            logger.error("Binding error on second or third POST");
             return "firstPage";
+        } else if (step == 2) {
+            dataSaver.handleSendData(params, userId);
+            model.addAttribute("step", 3);
+            logger.info("#" + userId + " completed the survey instance");
+            return "thirdPage";
+        } else {
+            logger.info(params.toString());
+            session.setComplete();
+            return "fourthPage";
         }
-        dataSaver.handleSendData(params, userId);
-        logger.info("#" + userId + " completed the survey instance");
-        return "thirdPage";
     }
 
-    @RequestMapping(value = "/",params = "any_shit")
-    public String getThirdStageRequest(@ModelAttribute("userId") String userId) {
-        if (userId == null) {
-            logger.error("Error of id on third stage saving");
-            return "firstPage";
-        }
-
-        return "fourthPage";
-    }
 }
