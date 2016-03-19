@@ -22,7 +22,7 @@ import static org.junit.Assert.fail;
 @SpringApplicationConfiguration(classes = {QuestionnaireApplication.class, Drivers.class})
 @WebAppConfiguration
 @IntegrationTest("server.port:0")
-public class MainLineTest {
+public class TestWithoutSecondStage {
     @Value("${local.server.port}")
     private int serverPort;
     @Autowired
@@ -176,44 +176,6 @@ public class MainLineTest {
         driver.findElement(By.xpath("(//input[@name='56'])[6]")).click();
         driver.findElement(By.xpath("(//input[@name='57'])[5]")).click();
         driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
-        driver.findElement(By.name("56edb09f64be4c3a1d613ed8")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb09f64be4c3a1d613ed9'])[2]")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb09f64be4c3a1d613eda'])[3]")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb09f64be4c3a1d613edb'])[4]")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb0a064be4c3a1d613edc'])[5]")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb0a064be4c3a1d613edd'])[6]")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb0a064be4c3a1d613ede'])[7]")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb0a164be4c3a1d613edf'])[6]")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb0a164be4c3a1d613ee0'])[5]")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb0a164be4c3a1d613ee1'])[4]")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb0a264be4c3a1d613ee2'])[3]")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb0a264be4c3a1d613ee3'])[2]")).click();
-        driver.findElement(By.name("56edb0a264be4c3a1d613ee4")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb0a264be4c3a1d613ee5'])[2]")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb0a364be4c3a1d613ee6'])[3]")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb0a364be4c3a1d613ee7'])[4]")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb0a364be4c3a1d613ee8'])[5]")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb0a364be4c3a1d613ee9'])[6]")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb0a464be4c3a1d613eea'])[7]")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb0a464be4c3a1d613eeb'])[6]")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb09f64be4c3a1d613ed8'])[7]")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb09f64be4c3a1d613ed9'])[6]")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb09f64be4c3a1d613eda'])[5]")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb0a064be4c3a1d613edc'])[3]")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb0a064be4c3a1d613edd'])[2]")).click();
-        driver.findElement(By.name("56edb0a064be4c3a1d613ede")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb0a164be4c3a1d613edf'])[7]")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb0a164be4c3a1d613ee0'])[6]")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb0a164be4c3a1d613ee1'])[5]")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb0a264be4c3a1d613ee2'])[4]")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb0a264be4c3a1d613ee3'])[3]")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb0a264be4c3a1d613ee4'])[2]")).click();
-        driver.findElement(By.name("56edb0a264be4c3a1d613ee5")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb0a364be4c3a1d613ee6'])[7]")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb0a364be4c3a1d613ee7'])[6]")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb0a364be4c3a1d613ee9'])[4]")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb0a464be4c3a1d613eea'])[3]")).click();
-        driver.findElement(By.xpath("(//input[@name='56edb0a464be4c3a1d613eeb'])[2]")).click();
         driver.findElement(By.cssSelector("input[type=\"submit\"]")).click();
         assertEquals("Спасибо за участие в опросе!", driver.findElement(By.cssSelector("p.mainblock")).getText());
     }
