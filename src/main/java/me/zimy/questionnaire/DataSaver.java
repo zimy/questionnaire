@@ -6,7 +6,6 @@ import me.zimy.questionnaire.domain.Responder;
 import me.zimy.questionnaire.domain.Response;
 import me.zimy.questionnaire.repositories.QuestionRepository;
 import me.zimy.questionnaire.repositories.ResponderRepository;
-import me.zimy.questionnaire.repositories.ResponseRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +29,6 @@ class DataSaver {
     private ResponderRepository responderService;
     @Autowired
     private QuestionRepository questionService;
-    @Autowired
-    private ResponseRepository responseService;
 
     /**
      * This  method is for storing answers of responders.
@@ -55,7 +52,6 @@ class DataSaver {
                 Response response = new Response("", Likeness.valueOf(params.get(s)), question);
                 responder.getResponses().add(response);
                 response.setQuestion(question);
-                responseService.save(response);
             }
             responderService.save(responder);
             logger.info("All answers for responder #$sessionId saved.");
