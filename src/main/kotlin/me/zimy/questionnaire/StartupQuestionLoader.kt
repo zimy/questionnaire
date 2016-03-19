@@ -54,7 +54,7 @@ open class StartupQuestionLoader {
             }
             val lines = Files.readAllLines(Paths.get(thirdStageBase.thirdStageFile))
             lines.map { s ->
-                ThirdStagePair(first = s.split("\",\"")[0], second = s.split("\",\"")[1])
+                ThirdStagePair(first = s.split(";")[0], second = s.split(";")[1], id = s.hashCode().toString())
             }.forEach { s ->
                 var looked = thirdStagePairs.getByFirstAndSecond(s.first, s.second)
                 if (looked == null || ( s.first != looked.first && s.second != looked.second)) {

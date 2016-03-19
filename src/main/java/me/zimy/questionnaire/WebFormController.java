@@ -24,7 +24,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/")
-@SessionAttributes(names = {"userId", "step"})
+@SessionAttributes(names = {"userId", "step", "responder"})
 class WebFormController {
 
     private Logger logger = LoggerFactory.getLogger(WebFormController.class);
@@ -58,6 +58,7 @@ class WebFormController {
                 saved.getGender() + ", " + saved.getDomain() + ", " + saved.getAge() + ") #" + saved.getId());
         model.addAttribute("questions", questionService.getByTargetGender(saved.getGender()));
         model.addAttribute("userId", saved.getId());
+        model.addAttribute("responder", responder);
         model.addAttribute("step", 2);
         return "secondPage";
     }
@@ -67,21 +68,23 @@ class WebFormController {
             @RequestParam Map<String, String> params, Model model,
             @ModelAttribute("userId") String userId,
             @ModelAttribute("step") Integer step,
+            @ModelAttribute("responder") Responder responder,
             SessionStatus session
     ) throws InterruptedException {
         if (userId == null || step == null || (step != 2 && step != 3)) {
             logger.error("Binding error on second or third POST");
             return "firstPage";
         } else if (step == 2) {
-            dataSaver.handleSecondPageData(params, userId);
+            dataSaver.handleSecondPageData(params, responder);
             model.addAttribute("step", 3);
             model.addAttribute("questions", alsoQuestions.findAll());
             logger.info("#" + userId + " completed the main survey instance");
             return "thirdPage";
         } else {
             logger.info(params.toString());
-            logger.info("#" + userId + " completed all survey pages");
+            dataSaver.handleThirdPageData(params, responder);
             session.setComplete();
+            logger.info("#" + userId + " completed all survey pages");
             return "fourthPage";
         }
     }
