@@ -38,7 +38,7 @@ class DataSaver {
      * @param sessionId is a Responders id to link responses with.
      */
 
-    Future<Boolean> handleSendData(Map<String, String> params, String sessionId) {
+    Future<Boolean> handleSecondPageData(Map<String, String> params, String sessionId) {
         logger.info("Params: " + params.toString());
         logger.info("userId: " + sessionId);
         logger.info("Starting async work on saving #$sessionId");
@@ -54,7 +54,7 @@ class DataSaver {
                 response.setQuestion(question);
             }
             responderService.save(responder);
-            logger.info("All answers for responder #$sessionId saved.");
+            logger.info("All second page data for responder #$sessionId saved.");
         } catch (NumberFormatException | NullPointerException e) {
             logger.warn("Somebody passed strange data in Id:" + sessionId);
             throw e;

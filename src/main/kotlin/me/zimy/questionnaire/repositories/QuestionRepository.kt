@@ -9,6 +9,8 @@ import org.springframework.data.mongodb.repository.MongoRepository
  * Created by zimy on 2/18/16.
  */
 interface QuestionRepository : MongoRepository<Question, String> {
+//    fun save(question: Question): Question
+//    fun findOne(id: String): Question
     @Cacheable fun getByTargetGender(gender: Gender): List<Question>
-    @Cacheable fun getByQuestion(question: String): Question
+    fun getByQuestion(question: String): Question
 }

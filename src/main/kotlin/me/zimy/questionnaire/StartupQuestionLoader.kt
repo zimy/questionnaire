@@ -1,13 +1,17 @@
 package me.zimy.questionnaire
 
 import me.zimy.questionnaire.configuration.QuestionBaseConfiguration
+import me.zimy.questionnaire.configuration.ThirdStageBaseConfiguration
 import me.zimy.questionnaire.domain.Gender
 import me.zimy.questionnaire.domain.Question
+import me.zimy.questionnaire.domain.ThirdStagePair
 import me.zimy.questionnaire.repositories.QuestionRepository
+import me.zimy.questionnaire.repositories.ThirdStagePairRepository
 import org.jopendocument.dom.spreadsheet.Sheet
 import org.jopendocument.dom.spreadsheet.SpreadSheet
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Service
 import java.io.IOException
 import java.nio.file.Files
@@ -21,17 +25,22 @@ import javax.annotation.PostConstruct
  * @since 12/7/14.
  */
 @Service
+@Profile("initial")
 open class StartupQuestionLoader {
     @Autowired
-    private val questions: QuestionRepository? = null
+    lateinit private var questions: QuestionRepository
     @Autowired
-    private val questionConfiguration: QuestionBaseConfiguration? = null
+    lateinit private var questionConfiguration: QuestionBaseConfiguration
+    @Autowired
+    lateinit private var thirdStagePairs: ThirdStagePairRepository
+    @Autowired
+    lateinit private var thirdStageBase: ThirdStageBaseConfiguration
 
     @Suppress("unused")
     @PostConstruct
     fun start() {
         try {
-            logger.info("Opening sheet file \"" + questionConfiguration!!.questionfile + "\"")
+            logger.info("Opening sheet file \"" + questionConfiguration.questionfile + "\"")
             val source = Paths.get(questionConfiguration.questionfile)
             val inputStream = Files.newInputStream(source)
             val target = Files.createTempFile("Questionnaire", ".ods")
@@ -43,6 +52,17 @@ open class StartupQuestionLoader {
             } else {
                 logger.error("File with questions not found")
             }
+            val lines = Files.readAllLines(Paths.get(thirdStageBase.thirdStageFile))
+            lines.map { s ->
+                ThirdStagePair(first = s.split("\",\"")[0], second = s.split("\",\"")[1])
+            }.forEach { s ->
+                var looked = thirdStagePairs.getByFirstAndSecond(s.first, s.second)
+                if (looked == null || ( s.first != looked.first && s.second != looked.second)) {
+                    val saved = thirdStagePairs.save(s)
+                    logger.info("Saved new third stage question with id #" + saved.id)
+                }
+            }
+
         } catch (e: NullPointerException) {
             logger.error("Error while working with spreadsheet: " + e.message)
             e.printStackTrace()
@@ -60,10 +80,10 @@ open class StartupQuestionLoader {
             var counter = 1
             var question: Question? = readQuestionFromStyleSheet(sheet, counter)
             while (question != null) {
-                val lookup = questions!!.getByQuestion(question.question)
+                val lookup = questions.getByQuestion(question.question)
                 val writeResult: Question
                 if (lookup != question) {
-                    writeResult = questions.save<Question>(question)
+                    writeResult = questions.save(question)
                     logger.info("Updated question with id==" + writeResult.id + " as " + writeResult.id + " and original id==" + writeResult.id)
                 } else {
                     logger.debug("Duplicate question found, skipping")
@@ -90,6 +110,9 @@ open class StartupQuestionLoader {
         val textText = getCell(sheet, row, 1)
         val textGender = getCell(sheet, row, 2)
         val textCriteria = getCell(sheet, row, 3)
+        if (textId == "" && textText == "" && textGender == "" && textCriteria == "") {
+            return null
+        }
         try {
             val gender = Gender.valueOf(textGender)
             val criteria = Integer.valueOf(textCriteria)

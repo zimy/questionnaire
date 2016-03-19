@@ -12,7 +12,8 @@ public class Security extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/common.css").permitAll()
+                .antMatchers("/*").permitAll()
+                .antMatchers("/api/*").hasRole("USER")
                 .anyRequest().fullyAuthenticated()
                 .and()
                 .formLogin();

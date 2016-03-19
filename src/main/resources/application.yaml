@@ -9,6 +9,7 @@ mail:
     password: ${mail-password}
     debug: false
 QuestionFile: "/home/zimy/Documents/HotProjects/questionnaire-ng/src/main/resources/QuestionList.ods"
+ThirdStageFile: "/home/zimy/Documents/HotProjects/questionnaire-ng/src/main/resources/szho.csv"
 server.session.cookie.name: obsession
 server.server-header: nginx/1.5.12
 

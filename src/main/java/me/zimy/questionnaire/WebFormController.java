@@ -39,7 +39,7 @@ class WebFormController {
     private DataSaver dataSaver;
 
     @Autowired
-    private ThirdStagePairRepository thirdStagePairRepository;
+    private ThirdStagePairRepository alsoQuestions;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String firstStep(Model model, Responder responder) {
@@ -73,12 +73,14 @@ class WebFormController {
             logger.error("Binding error on second or third POST");
             return "firstPage";
         } else if (step == 2) {
-            dataSaver.handleSendData(params, userId);
+            dataSaver.handleSecondPageData(params, userId);
             model.addAttribute("step", 3);
-            logger.info("#" + userId + " completed the survey instance");
+            model.addAttribute("questions", alsoQuestions.findAll());
+            logger.info("#" + userId + " completed the main survey instance");
             return "thirdPage";
         } else {
             logger.info(params.toString());
+            logger.info("#" + userId + " completed all survey pages");
             session.setComplete();
             return "fourthPage";
         }
