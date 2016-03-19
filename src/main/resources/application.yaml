@@ -6,8 +6,19 @@ mail:
     ssl: true
     email: zimy@yandex.ru
     username: zimy
-    password: iVfmvMXRul5Js3j
+    password: ${mail-password}
     debug: false
 QuestionFile: "/home/zimy/Documents/HotProjects/questionnaire-ng/src/main/resources/QuestionList.ods"
 server.session.cookie.name: obsession
 server.server-header: nginx/1.5.12
+
+---
+spring:
+  profiles: production
+  data:
+    mongodb:
+      database: questionnaire-ng
+      host: ds015879.mlab.com
+      password: ${mongo-password} # Vi taki dumaete zdes budet parol?
+      port: 15879 # Mongo server port.
+      username: questionnaire-user
