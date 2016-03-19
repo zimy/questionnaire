@@ -39,12 +39,10 @@ repositories {
 }
 
 dependencies {
-    compile('org.springframework.boot:spring-boot-devtools')
-	compile 'org.springframework.data:spring-data-rest-hal-browser'
-	compile("org.springframework.boot:spring-boot-starter-data-rest")
+//	compile 'org.springframework.data:spring-data-rest-hal-browser'
+//	compile("org.springframework.boot:spring-boot-starter-data-rest")
     compile("org.springframework.boot:spring-boot-starter-security")
     compile('org.springframework.boot:spring-boot-starter-data-mongodb')
-    compile('org.springframework.boot:spring-boot-starter-mail')
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
     compile("org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}")
     compile 'org.jopendocument:jOpenDocument:1.3'
