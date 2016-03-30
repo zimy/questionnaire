@@ -43,9 +43,10 @@ task dock(type: Docker, dependsOn: assemble) {
     push = true
     applicationName = jar.baseName
     setEnvironment("MONGO-PASSWORD", "password")
+    setEnvironment("SPRING_PROFILES_ACTIVE", "production,initial")
     exposePort(80)
     exposePort(443)
-    defaultCommand(["java", "-jar", "/"+jar.baseName+".jar", "--spring.profiles.active=production,initial ", '--mongo-password=$MONGO-PASSWORD', "--server.port=80"])
+    defaultCommand(["java", "-jar", "/"+jar.baseName+".jar", '--mongo-password=$MONGO-PASSWORD', "--server.port=80"])
     addFile("build/libs/"+jar.baseName+"-"+jar.version+".jar", "/"+jar.baseName+".jar")
     addFile("build/resources/main/QuestionList.ods", "/QuestionList.ods")
     addFile("build/resources/main/MOL.csv", "/MOL.csv")
@@ -79,7 +80,7 @@ dependencies {
     testCompile 'com.codeborne:phantomjsdriver:1.2.1'
     testCompile 'org.seleniumhq.selenium:selenium-htmlunit-driver:2.52.0'
     testCompile 'io.github.bonigarcia:webdrivermanager:1.4.1'
-    testRuntime 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
+//    testRuntime 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
 }
 
 

@@ -10,8 +10,8 @@ spring:
     mongodb:
       database: questionnaire-ng
       host: ds015879.mlab.com
-      password: ${mongo-password} # Vi taki dumaete zdes budet parol?
-      port: 15879 # Mongo server port.
+      password: ${mongo-password}
+      port: 15879
       username: questionnaire-1user
 QuestionFile: "/QuestionList.ods"
 ThirdStageFile: "/MOL.csv"

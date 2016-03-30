@@ -1,0 +1,632 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://localhost:8080/" />
+<title>main_autotest_with_all_pages</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">main_autotest_with_all_pages</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=identifier</td>
+	<td>Selenium </td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=identifier</td>
+	<td>Selenium Автотестер, который использует все страницы</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=age</td>
+	<td>10</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=gender-male</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=domain-cosplay</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=interest-both</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=age</td>
+	<td>100000</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=gender-female</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=domain-nothing</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=interest-anime</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=age</td>
+	<td>35</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=gender-male</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=domain-cosplay</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=interest-marvell</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=age</td>
+	<td>352</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=gender-female</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=domain-nothing</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=interest-nothing</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=age</td>
+	<td>3521</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=gender-male</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=domain-cosplay</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=interest-marvell</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=interest-anime</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=interest-both</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=gender-female</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=domain-nothing</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=interest-anime</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=interest-marvell</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=gender-male</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=domain-cosplay</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=interest-anime</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=interest-both</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=gender-female</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=domain-nothing</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=interest-anime</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=gender-male</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=domain-cosplay</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=interest-both</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=input[type=&quot;submit&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='2'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='3'])[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='4'])[4]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='5'])[5]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='6'])[6]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='7'])[5]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='8'])[4]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='9'])[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='10'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=11</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='12'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='13'])[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='14'])[4]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='15'])[5]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='16'])[6]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='17'])[5]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='18'])[4]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='19'])[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='20'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=21</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='22'])[6]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='23'])[5]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='24'])[4]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='25'])[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='26'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=27</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='28'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='29'])[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='30'])[4]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='31'])[5]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='32'])[6]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=33</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='34'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='35'])[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='36'])[4]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='37'])[5]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='38'])[6]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='39'])[5]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='40'])[4]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='41'])[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='42'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=43</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='44'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=45</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='46'])[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=47</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='48'])[4]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=49</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='50'])[5]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=51</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='52'])[6]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=53</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='54'])[5]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='55'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='56'])[4]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='57'])[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=input[type=&quot;submit&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=-953602642</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='1513655014'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=858144922</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='271277637'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='1837081339'])[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='1556360619'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=1756580015</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='1065581970'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='-1712505029'])[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='95815518'])[4]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='-1913685798'])[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='89587178'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>name=708252017</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='1947120838'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='-1391395154'])[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='1599379222'])[4]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='-1404855792'])[5]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='-149648585'])[4]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='1569928400'])[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='122197542'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='-149648585'])[6]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='1569928400'])[7]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@name='122197542'])[7]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=input[type=&quot;submit&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>css=p.mainblock</td>
+	<td>Спасибо за участие в опросе!</td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

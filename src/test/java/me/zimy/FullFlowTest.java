@@ -23,7 +23,7 @@ import static org.junit.Assert.fail;
 @SpringApplicationConfiguration(classes = {QuestionnaireApplication.class, Drivers.class})
 @WebAppConfiguration
 @IntegrationTest(value = {"server.port:0", "spring.mongodb.embedded.version=3.1.6"})
-@ActiveProfiles("initial,phantom")
+@ActiveProfiles("initial,firefox")
 public class FullFlowTest {
     @Value("${local.server.port}")
     private int serverPort;

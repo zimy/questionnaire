@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -20,7 +21,8 @@ import static org.junit.Assert.fail;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {QuestionnaireApplication.class, Drivers.class})
 @WebAppConfiguration
-@IntegrationTest(value = {"server.port:0", "spring.mongodb.embedded.version=3.1.6","spring.profiles.active=initial,firefox"})
+@IntegrationTest(value = {"server.port:0", "spring.mongodb.embedded.version=3.1.6"})
+@ActiveProfiles("initial,firefox")
 public class TestWithoutSecondStage {
     @Value("${local.server.port}")
     private int serverPort;
