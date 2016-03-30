@@ -80,7 +80,7 @@ dependencies {
     testCompile 'com.codeborne:phantomjsdriver:1.2.1'
     testCompile 'org.seleniumhq.selenium:selenium-htmlunit-driver:2.52.0'
     testCompile 'io.github.bonigarcia:webdrivermanager:1.4.1'
-//    testRuntime 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
+    testRuntime 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
 }
 
 
