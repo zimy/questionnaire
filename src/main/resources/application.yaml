@@ -1,18 +1,8 @@
 spring.data.rest.basePath: /api
-mail:
-  daemon:
-    host: smtp.yandex.ru
-    port: 465
-    ssl: true
-    email: zimy@yandex.ru
-    username: zimy
-    password: ${mail-password}
-    debug: false
-QuestionFile: "/home/zimy/Documents/HotProjects/questionnaire-ng/src/main/resources/QuestionList.ods"
-ThirdStageFile: "/home/zimy/Documents/HotProjects/questionnaire-ng/src/main/resources/MOL.csv"
+QuestionFile: "QuestionList.ods"
+ThirdStageFile: "MOL.csv"
 server.session.cookie.name: obsession
 server.server-header: nginx/1.5.12
-
 ---
 spring:
   profiles: production
@@ -22,4 +12,6 @@ spring:
       host: ds015879.mlab.com
       password: ${mongo-password} # Vi taki dumaete zdes budet parol?
       port: 15879 # Mongo server port.
-      username: questionnaire-user
+      username: questionnaire-1user
+QuestionFile: "/QuestionList.ods"
+ThirdStageFile: "/MOL.csv"

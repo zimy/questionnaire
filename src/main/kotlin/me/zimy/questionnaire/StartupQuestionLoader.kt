@@ -11,6 +11,7 @@ import org.jopendocument.dom.spreadsheet.Sheet
 import org.jopendocument.dom.spreadsheet.SpreadSheet
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Service
 import java.io.IOException
 import java.nio.file.Files
@@ -24,6 +25,7 @@ import javax.annotation.PostConstruct
  * @since 12/7/14.
  */
 @Service
+@Profile("initial")
 open class StartupQuestionLoader {
     @Autowired
     lateinit private var questions: QuestionRepository
@@ -39,8 +41,9 @@ open class StartupQuestionLoader {
     fun start() {
         try {
             logger.info("Opening sheet file \"" + questionConfiguration.questionfile + "\"")
-            val source = Paths.get(questionConfiguration.questionfile)
-            val inputStream = Files.newInputStream(source)
+            logger.info(questionConfiguration.questionfile)
+            logger.info(thirdStageBase.thirdStageFile)
+            val inputStream = javaClass.classLoader.getResourceAsStream(questionConfiguration.questionfile)
             val target = Files.createTempFile("Questionnaire", ".ods")
             Files.copy(inputStream, target, StandardCopyOption.REPLACE_EXISTING)
             if (Files.exists(target)) {
@@ -50,7 +53,9 @@ open class StartupQuestionLoader {
             } else {
                 logger.error("File with questions not found")
             }
-            val lines = Files.readAllLines(Paths.get(thirdStageBase.thirdStageFile))
+            val get = Paths.get(ClassLoader.getSystemResource(thirdStageBase.thirdStageFile).toURI())
+            logger.info(get.toString())
+            val lines = Files.readAllLines(get)
             lines.map { s ->
                 ThirdStagePair(first = s.split(";")[0], second = s.split(";")[1], id = s.hashCode().toString())
             }.forEach { s ->

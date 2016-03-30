@@ -1,9 +1,10 @@
 buildscript {
     ext {
-        springBootVersion = '1.4.0.BUILD-SNAPSHOT'
+        springBootVersion = '1.4.0.M1'
         kotlinVersion = '1.0.0'
     }
     repositories {
+	jcenter()
         mavenCentral()
         maven { url "https://repo.spring.io/snapshot" }
         maven { url "https://repo.spring.io/milestone" }
@@ -11,21 +12,48 @@ buildscript {
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
+        classpath 'se.transmode.gradle:gradle-docker:1.2'
     }
 }
 
 apply plugin: 'kotlin'
 apply plugin: 'idea'
+apply plugin: 'docker'
 apply plugin: 'spring-boot'
+
+group = "registry.ng.bluemix.net/some_zimy_container"
 
 jar {
     baseName = 'questionnaire-ng'
     version = '0.0.1-SNAPSHOT'
 }
 
+docker {
+    baseImage "frolvlad/alpine-oraclejdk8:slim"
+    maintainer "Dmitriy I. Yakovlev zimy@yandex.ru"
+}
+
+task dock(type: Docker, dependsOn: assemble) {
+    doFirst {
+        copy {
+            from jar
+            into stageDir
+        }
+    }
+    push = true
+    applicationName = jar.baseName
+    setEnvironment("MONGO-PASSWORD", "password")
+    exposePort(80)
+    exposePort(443)
+    defaultCommand(["java", "-jar", "/"+jar.baseName+".jar", "--spring.profiles.active=production,initial ", '--mongo-password=$MONGO-PASSWORD', "--server.port=80"])
+    addFile("build/libs/"+jar.baseName+"-"+jar.version+".jar", "/"+jar.baseName+".jar")
+    addFile("build/resources/main/QuestionList.ods", "/QuestionList.ods")
+    addFile("build/resources/main/MOL.csv", "/MOL.csv")
+}
+
+
 bootRepackage {
     executable = true
-    classifier = 'exec'
 }
 
 sourceCompatibility = 1.8
@@ -49,8 +77,11 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile 'org.seleniumhq.selenium:selenium-java:2.53.0'
     testCompile 'com.codeborne:phantomjsdriver:1.2.1'
+    testCompile 'org.seleniumhq.selenium:selenium-htmlunit-driver:2.52.0'
+    testCompile 'io.github.bonigarcia:webdrivermanager:1.4.1'
     testRuntime 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
 }
+
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.11'

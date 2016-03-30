@@ -15,13 +15,12 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {QuestionnaireApplication.class, Drivers.class})
 @WebAppConfiguration
-@IntegrationTest("server.port:0")
+@IntegrationTest(value = {"server.port:0", "spring.mongodb.embedded.version=3.1.6","spring.profiles.active=initial,firefox"})
 public class TestWithoutSecondStage {
     @Value("${local.server.port}")
     private int serverPort;
