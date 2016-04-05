@@ -13,5 +13,5 @@ spring:
       password: ${mongo-password}
       port: 15879
       username: questionnaire-1user
-QuestionFile: "/QuestionList.ods"
-ThirdStageFile: "/MOL.csv"
+#QuestionFile: "/QuestionList.ods"
+#ThirdStageFile: "/MOL.csv"

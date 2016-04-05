@@ -1,7 +1,7 @@
 buildscript {
     ext {
         springBootVersion = '1.4.0.M1'
-        kotlinVersion = '1.0.0'
+        kotlinVersion = '1.0.1-2'
     }
     repositories {
 	jcenter()
@@ -28,28 +28,19 @@ jar {
     version = '0.0.1-SNAPSHOT'
 }
 
-docker {
-    baseImage "frolvlad/alpine-oraclejdk8:slim"
-    maintainer "Dmitriy I. Yakovlev zimy@yandex.ru"
-}
-
 task dock(type: Docker, dependsOn: assemble) {
     doFirst {
         copy {
             from jar
             into stageDir
         }
+	copy {
+	    from processResources
+            into stageDir
+	}
     }
     push = true
-    applicationName = jar.baseName
-    setEnvironment("MONGO-PASSWORD", "password")
-    setEnvironment("SPRING_PROFILES_ACTIVE", "production,initial")
-    exposePort(80)
-    exposePort(443)
-    defaultCommand(["java", "-jar", "/"+jar.baseName+".jar", '--mongo-password=$MONGO-PASSWORD', "--server.port=80"])
-    addFile("build/libs/"+jar.baseName+"-"+jar.version+".jar", "/"+jar.baseName+".jar")
-    addFile("build/resources/main/QuestionList.ods", "/QuestionList.ods")
-    addFile("build/resources/main/MOL.csv", "/MOL.csv")
+    dockerfile = file('src/main/docker/Dockerfile')
 }
 
 
@@ -68,9 +59,9 @@ repositories {
 }
 
 dependencies {
-//	compile 'org.springframework.data:spring-data-rest-hal-browser'
-//	compile("org.springframework.boot:spring-boot-starter-data-rest")
-    compile("org.springframework.boot:spring-boot-starter-security")
+//	  compile 'org.springframework.data:spring-data-rest-hal-browser'
+//    compile("org.springframework.boot:spring-boot-starter-data-rest")
+//    compile("org.springframework.boot:spring-boot-starter-security")
     compile('org.springframework.boot:spring-boot-starter-data-mongodb')
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
     compile("org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}")
@@ -85,5 +76,5 @@ dependencies {
 
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.11'
+    gradleVersion = '2.12'
 }
